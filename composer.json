@@ -1,0 +1,25 @@
+{
+    "name": "ekapusta/doctrine-custom-types-bundle",
+    "version": "1.0",
+    "description": "Add custom types like MySQL's enum",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+            "Ekapusta\\DoctrineCustomTypesBundle\\": ""
+        }
+    },
+    "require": {
+        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/orm": "~2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Ustimenko",
+            "email": "ustimenko.alexander@gmail.com"
+        }
+    ]
+}
