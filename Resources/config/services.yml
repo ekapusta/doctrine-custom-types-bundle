@@ -1,0 +1,6 @@
+services:
+    ekapustadoctrinecustomtypes.schemacolumn.listener:
+        public: false
+        class: Ekapusta\DoctrineCustomTypesBundle\EventListener\DoctrineSchemaColumnDefinitionListener
+        tags:
+            - {name: doctrine.event_listener, event: onSchemaColumnDefinition}
