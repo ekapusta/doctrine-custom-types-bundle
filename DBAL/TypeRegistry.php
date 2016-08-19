@@ -2,6 +2,8 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL;
 
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
+
 class TypeRegistry
 {
 
@@ -11,6 +13,7 @@ class TypeRegistry
 
     public function __construct()
     {
+        $this->registerType('enum', 'enum', EnumType::class, 'mysql');
     }
 
     private function registerType($databaseName, $doctrineName, $className, $compatibleDriver = null)
