@@ -1,0 +1,42 @@
+<?php
+
+namespace Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler;
+
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
+
+class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
+{
+
+    private $types = [];
+
+    public function process(ContainerBuilder $container)
+    {
+        $this->types = (new TypeRegistry())->getDatabaseMapping();
+        foreach ($container->getDefinitions() as $definition) {
+            $this->visitDefinition($definition);
+        }
+    }
+
+    private function visitDefinition(Definition $definition)
+    {
+        if (! $definition instanceof DefinitionDecorator) {
+            return;
+        }
+        if ($definition->getParent() != 'doctrine.dbal.connection') {
+            return;
+        }
+
+        $this->addTypeMapping($definition);
+    }
+
+    private function addTypeMapping(DefinitionDecorator $connectionDefinition)
+    {
+        $arguments = $connectionDefinition->getArguments();
+        $arguments[3] += $this->types;
+        $connectionDefinition->setArguments($arguments);
+    }
+}
