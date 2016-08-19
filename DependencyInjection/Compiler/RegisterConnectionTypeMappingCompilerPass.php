@@ -11,11 +11,8 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
 {
 
-    private $types = [];
-
     public function process(ContainerBuilder $container)
     {
-        $this->types = (new TypeRegistry())->getDatabaseMapping();
         foreach ($container->getDefinitions() as $definition) {
             $this->visitDefinition($definition);
         }
@@ -36,7 +33,8 @@ class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
     private function addTypeMapping(DefinitionDecorator $connectionDefinition)
     {
         $arguments = $connectionDefinition->getArguments();
-        $arguments[3] += $this->types;
+        $driver    = $connectionDefinition->getArgument(0)['driver'];
+        $arguments[3] += (new TypeRegistry())->getDatabaseMapping($driver);
         $connectionDefinition->setArguments($arguments);
     }
 }

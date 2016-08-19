@@ -13,16 +13,23 @@ class TypeRegistry
     {
     }
 
-    private function registerType($databaseName, $doctrineName, $className)
+    private function registerType($databaseName, $doctrineName, $className, $compatibleDriver = null)
     {
-        $this->dbToDoctrine[$databaseName] = $doctrineName;
+        $this->dbToDoctrine[$databaseName] = [$doctrineName, $compatibleDriver];
         $this->doctrineToClass[$doctrineName] = $className;
         return $this;
     }
 
-    public function getDatabaseMapping()
+    public function getDatabaseMapping($connectionDriver)
     {
-        return $this->dbToDoctrine;
+        $result = [];
+        foreach ($this->dbToDoctrine as $databaseName => $row) {
+            list($doctrineName, $compatibleDriver) = $row;
+            if (is_null($compatibleDriver) || strstr($connectionDriver, $compatibleDriver)) {
+                $result[$databaseName] = $doctrineName;
+            }
+        }
+        return $result;
     }
 
     public function getDoctrineMapping()
