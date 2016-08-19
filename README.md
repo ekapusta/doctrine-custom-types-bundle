@@ -1,5 +1,7 @@
 # Doctrine custom types bundle
 
+[![Build Status](https://travis-ci.org/ekapusta/doctrine-custom-types-bundle.svg?branch=develop)](https://travis-ci.org/ekapusta/doctrine-custom-types-bundle)
+
 Add custom types like MySQL's enum.
 
 ## To add new type
