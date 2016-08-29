@@ -2,6 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL;
 
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
 
 class TypeRegistry
@@ -13,12 +14,13 @@ class TypeRegistry
 
     public function __construct()
     {
-        $this->registerType('enum', 'enum', EnumType::class, 'mysql');
+        $this->registerType('enum', 'enum', EnumType::class, '/mysql/i');
+        $this->registerType('cube', 'cube', CubeType::class, '/pgsql/i');
     }
 
-    private function registerType($databaseName, $doctrineName, $className, $compatibleDriver = null)
+    private function registerType($databaseName, $doctrineName, $className, $compatibleDriverMask = null)
     {
-        $this->dbToDoctrine[$databaseName] = [$doctrineName, $compatibleDriver];
+        $this->dbToDoctrine[$databaseName] = [$doctrineName, $compatibleDriverMask];
         $this->doctrineToClass[$doctrineName] = $className;
         return $this;
     }
@@ -27,8 +29,8 @@ class TypeRegistry
     {
         $result = [];
         foreach ($this->dbToDoctrine as $databaseName => $row) {
-            list($doctrineName, $compatibleDriver) = $row;
-            if (is_null($compatibleDriver) || strstr($connectionDriver, $compatibleDriver)) {
+            list($doctrineName, $compatibleDriverMask) = $row;
+            if (is_null($compatibleDriverMask) || preg_match($compatibleDriverMask, $connectionDriver)) {
                 $result[$databaseName] = $doctrineName;
             }
         }
