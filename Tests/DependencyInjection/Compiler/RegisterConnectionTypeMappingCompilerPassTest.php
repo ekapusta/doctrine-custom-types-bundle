@@ -22,10 +22,10 @@ class RegisterConnectionTypeMappingCompilerPassTest extends \PHPUnit_Framework_T
                         'driver'    => 'pdo_mysql',
                     ],
                     'another' => [
-                        'driver'    => 'pdo_mysql',
+                        'driver'    => 'pdo_pgsql',
                     ],
                     'last' => [
-                        'driver'    => 'pdo_pgsql',
+                        'driver'    => 'ibm_db2',
                     ],
                 ]
             ],
@@ -61,7 +61,7 @@ class RegisterConnectionTypeMappingCompilerPassTest extends \PHPUnit_Framework_T
     public function testTypesAddedWithRespectToCompatibility(ContainerBuilder $container)
     {
         $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.default_connection', 'enum');
-        $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.another_connection', 'enum');
+        $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.another_connection', 'cube');
         $this->assertDefinitionExistsAndTypesAreEmpty($container, 'doctrine.dbal.last_connection');
     }
 
