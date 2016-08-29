@@ -22,3 +22,27 @@ To use it in annotations, pass `values` through `options`:
      * })
      */
     private $sex;
+
+
+## PostgreSQL CUBE type
+
+Supports both points and point's sets.
+See https://www.postgresql.org/docs/current/static/cube.html
+
+    /**
+     * @var Value\Point
+     *
+     * @ORM\Column(name="n_space_point", type="cube", options={
+     *     "default": "(1, 2, 3)"
+     * })
+     */
+    private $nSpacePoint;
+
+    /**
+     * @var Value\PointSet
+     *
+     * @ORM\Column(name="n_space_cube", type="cube", options={
+     *     "default": "(1, 2), (3, 4)"
+     * })
+     */
+    private $nSpaceCube;
