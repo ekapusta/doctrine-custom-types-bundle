@@ -60,4 +60,19 @@ class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCa
         $this->assertArrayHasKey('dbal', $config[0]);
         $this->assertArrayHasKey('types', $config[0]['dbal']);
     }
+
+    /**
+     * @depends testPrependsDoctrineConfig
+     */
+    public function testPrependedConfigHasOrmNumericFunctions(ContainerBuilder $container)
+    {
+        $config = $container->getExtensionConfig('doctrine');
+
+        $this->assertNotEmpty($config);
+
+        $this->assertArrayHasKey('orm', $config[0]);
+        $this->assertArrayHasKey('dql', $config[0]['orm']);
+        $this->assertArrayHasKey('numeric_functions', $config[0]['orm']['dql']);
+        $this->assertNotEmpty($config[0]['orm']['dql']['numeric_functions']);
+    }
 }
