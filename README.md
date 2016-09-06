@@ -26,7 +26,7 @@ To use it in annotations, pass `values` through `options`:
 
 ## PostgreSQL CUBE type
 
-Supports both points and point's sets.
+Supports both points and point's sets. Also all cube's functions added.
 See https://www.postgresql.org/docs/current/static/cube.html
 
     /**
