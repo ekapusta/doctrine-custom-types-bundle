@@ -18,7 +18,7 @@
     "scripts": {
         "post-autoload-dump": [
             "echo vendor/bin/phpunit --debug '$@' > vendor/bin/phpunit-debug",
-            "echo vendor/bin/phpunit --coverage-html ./Resources/coverage --coverage-text '$@' > vendor/bin/phpunit-coverage",
+            "echo /usr/bin/env phpdbg -qrr vendor/bin/phpunit --coverage-html ./Resources/coverage --coverage-text '$@' > vendor/bin/phpunit-coverage",
             "chmod +x vendor/bin/phpunit-*"
         ]
     },
