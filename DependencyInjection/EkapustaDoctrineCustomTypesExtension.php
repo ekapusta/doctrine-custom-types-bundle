@@ -21,20 +21,43 @@ class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependE
             throw new RuntimeException('Doctrine bundle required!');
         }
 
-        $functions = new FunctionRegistry($container->getExtensionConfig('doctrine'));
-
-        $container->prependExtensionConfig('doctrine', [
+        $config = [
             'dbal' => [
                 'types' => (new TypeRegistry())->getDoctrineMapping(),
             ],
-            'orm' => [
-                'dql' => [
-                    'string_functions'   => $functions->getStringFunctions(),
-                    'numeric_functions'  => $functions->getNumericFunctions(),
-                    'datetime_functions' => $functions->getDatetimeFunctions(),
-                ],
-            ],
-        ]);
+        ];
+
+        $dqlConfig = $this->generateDqlConfig($container);
+        foreach ($this->extractEntityManagers($container) as $manager) {
+            $config['orm']['entity_managers'][$manager]['dql'] = $dqlConfig;
+        }
+
+        $container->prependExtensionConfig('doctrine', $config);
+    }
+
+    private function extractEntityManagers(ContainerBuilder $container)
+    {
+        $managers = ['default' => null];
+
+        foreach ($container->getExtensionConfig('doctrine') as $doctrineConfig) {
+            if (!isset($doctrineConfig['orm']['entity_managers'])) {
+                continue;
+            }
+            $managers += $doctrineConfig['orm']['entity_managers'];
+        }
+
+        return array_keys($managers);
+    }
+
+    private function generateDqlConfig(ContainerBuilder $container)
+    {
+        $functions = new FunctionRegistry($container->getExtensionConfig('doctrine'));
+
+        return [
+            'string_functions'   => $functions->getStringFunctions(),
+            'numeric_functions'  => $functions->getNumericFunctions(),
+            'datetime_functions' => $functions->getDatetimeFunctions(),
+        ];
     }
 
     public function load(array $configs, ContainerBuilder $container)
