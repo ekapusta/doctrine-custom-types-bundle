@@ -2,8 +2,10 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DependencyInjection;
 
+use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\EkapustaDoctrineCustomTypesExtension;
+use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql\CubeDistanceFunction;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCase
@@ -70,9 +72,63 @@ class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCa
 
         $this->assertNotEmpty($config);
 
-        $this->assertArrayHasKey('orm', $config[0]);
-        $this->assertArrayHasKey('dql', $config[0]['orm']);
-        $this->assertArrayHasKey('numeric_functions', $config[0]['orm']['dql']);
-        $this->assertNotEmpty($config[0]['orm']['dql']['numeric_functions']);
+        $this->assertTrue(isset($config[0]['orm']['entity_managers']['default']['dql']['numeric_functions']));
+    }
+
+    /**
+     * @dataProvider dataForDoctrineHasFunctionsAtEntityManager
+     */
+    public function testDoctrineHasFunctionsAtEntityManager($doctrineOrmConfigId, $doctrineConfig)
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.debug', false);
+        $container->setParameter('kernel.root_dir', __DIR__);
+        $container->setParameter('kernel.environment', 'prod');
+        $container->setParameter('kernel.bundles', ['DoctrineBundle' => new DoctrineBundle()]);
+        $doctrine = new DoctrineExtension();
+        $container->registerExtension($doctrine);
+
+        $container->loadFromExtension('doctrine', $doctrineConfig);
+
+        $extension = new EkapustaDoctrineCustomTypesExtension();
+        $extension->prepend($container);
+
+        $doctrine->load($container->getExtensionConfig('doctrine'), $container);
+
+        $this->assertContains([
+            'addCustomNumericFunction',
+            ['CUBE_DISTANCE', CubeDistanceFunction::class]
+        ], $container->getDefinition($doctrineOrmConfigId)->getMethodCalls());
+    }
+
+    public function dataForDoctrineHasFunctionsAtEntityManager()
+    {
+        return [
+            ['doctrine.orm.default_configuration', [
+                'orm' => [
+                    'auto_mapping' => true,
+                ]
+            ]],
+            ['doctrine.orm.default_configuration', [
+                'orm' => [
+                    'entity_managers' => [
+                        'default' => [
+                        ],
+                        'another' => [
+                        ],
+                    ],
+                ]
+            ]],
+            ['doctrine.orm.another_configuration', [
+                'orm' => [
+                    'entity_managers' => [
+                        'default' => [
+                        ],
+                        'another' => [
+                        ],
+                    ],
+                ]
+            ]],
+        ];
     }
 }
