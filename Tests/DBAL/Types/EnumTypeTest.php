@@ -18,7 +18,7 @@ class EnumTypeTest extends TestCase
 
     private $platform;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         if (!Type::hasType('enum')) {
             Type::addType('enum', EnumType::class);

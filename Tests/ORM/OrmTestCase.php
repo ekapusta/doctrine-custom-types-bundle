@@ -9,7 +9,7 @@ abstract class OrmTestCase extends TestCase
 
     protected $entityManager;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $config = new \Doctrine\ORM\Configuration();
         $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());

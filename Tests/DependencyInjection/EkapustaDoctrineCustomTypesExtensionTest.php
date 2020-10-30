@@ -88,6 +88,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
     public function testDoctrineHasFunctionsAtEntityManager($doctrineOrmConfigId, $doctrineConfig)
     {
         $container = new ContainerBuilder();
+        $container->setParameter('kernel.name', 'Qwerty');
         $container->setParameter('kernel.debug', false);
         $container->setParameter('kernel.root_dir', __DIR__);
         $container->setParameter('kernel.environment', 'prod');
