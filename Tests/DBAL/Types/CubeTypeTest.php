@@ -2,7 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\PostgreSQL92Platform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
@@ -20,14 +20,14 @@ class CubeTypeTest extends TestCase
 
     private $platform;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         if (! Type::hasType('cube')) {
             Type::addType('cube', CubeType::class);
         }
 
         $this->type = Type::getType('cube');
-        $this->platform = new PostgreSQL94Platform();
+        $this->platform = new PostgreSQL92Platform();
     }
 
     public function testHasName()

@@ -6,20 +6,20 @@ use Ekapusta\DoctrineCustomTypesBundle\EkapustaDoctrineCustomTypesBundle;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
+use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler\RegisterConnectionTypeMappingCompilerPass;
 
 class EkapustaDoctrineCustomTypesBundleTest extends TestCase
 {
 
     public function testBuild()
     {
-        $container = $this->getMockBuilder(ContainerBuilder::class)
-            ->setMethods(['addCompilerPass'])
-            ->getMock();
-        $container->expects($this->atLeastOnce())
-            ->method('addCompilerPass')
-            ->with($this->isInstanceOf(CompilerPassInterface::class));
+        $container = new ContainerBuilder();
 
         $bundle = new EkapustaDoctrineCustomTypesBundle();
         $bundle->build($container);
+
+        $passes = array_map('get_class', $container->getCompilerPassConfig()->getPasses());
+
+        $this->assertContains(RegisterConnectionTypeMappingCompilerPass::class, $passes);
     }
 }
