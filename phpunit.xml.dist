@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        backupGlobals               = "false"
-        backupStaticAttributes      = "false"
-        bootstrap                   = "vendor/autoload.php"
-        colors                      = "true"
-        convertErrorsToExceptions   = "true"
-        convertNoticesToExceptions  = "true"
-        convertWarningsToExceptions = "true"
-        processIsolation            = "false"
-        syntaxCheck                 = "false"
->
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    backupGlobals="false" backupStaticAttributes="false"
+    bootstrap="vendor/autoload.php" colors="true"
+    convertErrorsToExceptions="true" convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true" processIsolation="false"
+    cacheResult="false"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
+            <directory>./</directory>
+        </include>
+        <exclude>
+            <directory suffix="Interface.php">./</directory>
+            <directory>./Resources</directory>
+            <directory>./Tests</directory>
+            <directory>./vendor</directory>
+        </exclude>
+    </coverage>
     <php>
         <ini name="error_reporting" value="-1" />
     </php>
-
     <testsuites>
-        <testsuite name="Doctrine custom types bundle test suite">
+        <testsuite
+            name="Doctrine custom types bundle test suite">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory suffix="Interface.php">./</directory>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>

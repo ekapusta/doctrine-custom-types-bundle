@@ -3,8 +3,10 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\Value;
 
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
+use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
-class PointTest extends \PHPUnit_Framework_TestCase
+class PointTest extends TestCase
 {
 
     public function testEmptyPointEqualsToOneDimensionalZeroPoint()
@@ -12,18 +14,21 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Point(0), new Point());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage numeric
-     */
     public function testNotCreatedFromNonNumericValues()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('numeric');
+
         new Point(1, 'two');
     }
 
     public function testCreatedMultiFromArray()
     {
-        return new Point(['1', 2, 3]);
+        $point = new Point(['1', 2, 3]);
+
+        $this->assertInstanceOf(Point::class, $point);
+
+        return $point;
     }
 
     /**

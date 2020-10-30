@@ -16,6 +16,14 @@ class FunctionRegistry
     }
 
     /**
+     * @return string
+     */
+    public function getKnownDrivers()
+    {
+        return $this->knownDrivers;
+    }
+
+    /**
      * @throws \RuntimeException
      */
     public function getStringFunctions()
@@ -100,6 +108,7 @@ class FunctionRegistry
     {
         $className = '';
         $content = file_get_contents($path);
+        $matches = [];
         if (preg_match('/namespace\s+([^;]+)/', $content, $matches)) {
             $className .= $matches[1] . '\\';
         }

@@ -3,10 +3,11 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler;
 
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
 {
@@ -20,7 +21,7 @@ class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
 
     private function visitDefinition(Definition $definition)
     {
-        if (! $definition instanceof DefinitionDecorator) {
+        if (!$definition instanceof DefinitionDecorator && !$definition instanceof ChildDefinition) {
             return;
         }
         if ($definition->getParent() != 'doctrine.dbal.connection') {
@@ -30,7 +31,7 @@ class RegisterConnectionTypeMappingCompilerPass implements CompilerPassInterface
         $this->addTypeMapping($definition);
     }
 
-    private function addTypeMapping(DefinitionDecorator $connectionDefinition)
+    private function addTypeMapping(Definition $connectionDefinition)
     {
         $arguments = $connectionDefinition->getArguments();
         $driver    = $connectionDefinition->getArgument(0)['driver'];

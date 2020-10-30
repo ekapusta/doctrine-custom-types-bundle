@@ -4,15 +4,17 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions;
 
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql\CubeDistanceFunction;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
-class FunctionRegistryTest extends \PHPUnit_Framework_TestCase
+class FunctionRegistryTest extends TestCase
 {
 
     public function testOnEmptyConfigThereAreNoDrivers()
     {
         $registry = new FunctionRegistry([]);
 
-        $this->assertAttributeEquals('', 'knownDrivers', $registry);
+        $this->assertEquals('', $registry->getKnownDrivers());
     }
 
     public function testDriversAreExtractedFromNormalConfig()
@@ -24,7 +26,7 @@ class FunctionRegistryTest extends \PHPUnit_Framework_TestCase
 
         $registry = new FunctionRegistry($configs);
 
-        $this->assertAttributeEquals('pdo_mysql pdo_pgsql', 'knownDrivers', $registry);
+        $this->assertEquals('pdo_mysql pdo_pgsql', $registry->getKnownDrivers());
     }
 
     public function testNumericFunctionsAreLoadedOnUnknownDrivers()
@@ -60,12 +62,11 @@ class FunctionRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayNotHasKey(CubeDistanceFunction::getName(), $functions);
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage Classname Wtf\Wow not exists under
-     */
     public function testNotExistedClassThrowsException()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Classname Wtf\Wow not exists under');
+
         $empty = tempnam(sys_get_temp_dir(), 'SomeFunction');
         file_put_contents($empty, '<?php namespace Wtf; class Wow {}');
 
@@ -73,12 +74,11 @@ class FunctionRegistryTest extends \PHPUnit_Framework_TestCase
         $registry->getNumericFunctions();
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage Classname  not exists under
-     */
     public function testNotExistedEmptyClassThrowsException()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Classname  not exists under');
+
         $empty = tempnam(sys_get_temp_dir(), 'SomeFunction');
 
         $registry = new FunctionRegistry([], $empty);

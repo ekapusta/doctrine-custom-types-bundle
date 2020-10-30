@@ -5,8 +5,10 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
+use PHPUnit\Framework\TestCase;
+use Doctrine\DBAL\Exception\InvalidArgumentException;
 
-class EnumTypeTest extends \PHPUnit_Framework_TestCase
+class EnumTypeTest extends TestCase
 {
 
     /**
@@ -16,7 +18,7 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
     private $platform;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!Type::hasType('enum')) {
             Type::addType('enum', EnumType::class);
@@ -33,11 +35,12 @@ class EnumTypeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataForSqlDeclarationRequiresValues
-     * @expectedException Doctrine\DBAL\Exception\InvalidArgumentException
-     * @expectedExceptionMessage required
      */
     public function testSqlDeclarationRequiresValues($fieldDeclaration)
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('required');
+
         $this->type->getSQLDeclaration($fieldDeclaration, $this->platform);
     }
 

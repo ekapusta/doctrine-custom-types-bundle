@@ -2,13 +2,15 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DependencyInjection;
 
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\EkapustaDoctrineCustomTypesExtension;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql\CubeDistanceFunction;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
-class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCase
+class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
 {
 
     public function testLoaded()
@@ -16,6 +18,8 @@ class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCa
         $extension = new EkapustaDoctrineCustomTypesExtension();
         $container = new ContainerBuilder();
         $extension->load([], $container);
+
+        $this->assertInstanceOf(ContainerBuilder::class, $container);
 
         return $container;
     }
@@ -28,16 +32,17 @@ class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCa
         $this->assertTrue($container->hasDefinition('ekapustadoctrinecustomtypes.schemacolumn.listener'));
     }
 
-    /**
-     * @expectedException Symfony\Component\DependencyInjection\Exception\RuntimeException
-     * @expectedExceptionMessage Doctrine
-     */
     public function testRequiresDoctrineBundle()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Doctrine');
+
         $extension = new EkapustaDoctrineCustomTypesExtension();
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', []);
         $extension->prepend($container);
+
+        $this->assertInstanceOf(ContainerBuilder::class, $container);
     }
 
     public function testPrependsDoctrineConfig()
@@ -46,6 +51,8 @@ class EkapustaDoctrineCustomTypesExtensionTest extends \PHPUnit_Framework_TestCa
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', ['DoctrineBundle' => new DoctrineBundle()]);
         $extension->prepend($container);
+
+        $this->assertInstanceOf(ContainerBuilder::class, $container);
 
         return $container;
     }

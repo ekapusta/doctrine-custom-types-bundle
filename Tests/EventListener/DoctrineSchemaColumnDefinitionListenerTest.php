@@ -8,8 +8,9 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\EventListener\DoctrineSchemaColumnDefinitionListener;
+use PHPUnit\Framework\TestCase;
 
-class DoctrineSchemaColumnDefinitionListenerTest extends \PHPUnit_Framework_TestCase
+class DoctrineSchemaColumnDefinitionListenerTest extends TestCase
 {
 
     public function testDefaultColumnNotExtracted()

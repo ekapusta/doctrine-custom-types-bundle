@@ -13,7 +13,8 @@
         "doctrine/orm": "~2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "symfony/yaml": "^5.1"
     },
     "scripts": {
         "post-autoload-dump": [
