@@ -22,6 +22,8 @@ abstract class Base
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return boolean
      */
     abstract protected function isPropertiesEqual($o);

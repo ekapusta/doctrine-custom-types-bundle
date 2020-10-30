@@ -6,8 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler\RegisterConnectionTypeMappingCompilerPass;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\EkapustaDoctrineCustomTypesExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
-class RegisterConnectionTypeMappingCompilerPassTest extends \PHPUnit_Framework_TestCase
+class RegisterConnectionTypeMappingCompilerPassTest extends TestCase
 {
 
     public function testDoctrineLoaded()
@@ -31,6 +32,8 @@ class RegisterConnectionTypeMappingCompilerPassTest extends \PHPUnit_Framework_T
             ],
         ]], $container);
 
+        $this->assertInstanceOf(ContainerBuilder::class, $container);
+
         return $container;
     }
 
@@ -51,6 +54,8 @@ class RegisterConnectionTypeMappingCompilerPassTest extends \PHPUnit_Framework_T
     {
         (new EkapustaDoctrineCustomTypesExtension())->load([], $container);
         (new RegisterConnectionTypeMappingCompilerPass())->process($container);
+
+        $this->assertInstanceOf(ContainerBuilder::class, $container);
 
         return $container;
     }

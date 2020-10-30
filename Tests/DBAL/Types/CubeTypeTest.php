@@ -2,14 +2,15 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
-use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
+use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
+use PHPUnit\Framework\TestCase;
+use Doctrine\DBAL\Types\ConversionException;
 
-class CubeTypeTest extends \PHPUnit_Framework_TestCase
+class CubeTypeTest extends TestCase
 {
 
     /**
@@ -19,14 +20,14 @@ class CubeTypeTest extends \PHPUnit_Framework_TestCase
 
     private $platform;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! Type::hasType('cube')) {
             Type::addType('cube', CubeType::class);
         }
 
         $this->type = Type::getType('cube');
-        $this->platform = new PostgreSqlPlatform();
+        $this->platform = new PostgreSQL94Platform();
     }
 
     public function testHasName()
@@ -41,12 +42,13 @@ class CubeTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Doctrine\DBAL\Types\ConversionException
-     * @expectedExceptionMessage Could not convert
      * @dataProvider dataForConvertToDatabaseValueFailed
      */
     public function testConvertToDatabaseValueFailed($value)
     {
+        $this->expectException(ConversionException::class);
+        $this->expectExceptionMessage('Could not convert');
+
         $this->type->convertToDatabaseValue($value, $this->platform);
     }
 
@@ -83,11 +85,12 @@ class CubeTypeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Doctrine\DBAL\Types\ConversionException
      * @dataProvider dataForConvertToPHPValueFailed
      */
     public function testConvertToPHPValueFailed($value)
     {
+        $this->expectException(ConversionException::class);
+
         $this->type->convertToPHPValue($value, $this->platform);
     }
 

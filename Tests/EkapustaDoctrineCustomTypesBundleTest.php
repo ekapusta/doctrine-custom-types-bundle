@@ -5,8 +5,9 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests;
 use Ekapusta\DoctrineCustomTypesBundle\EkapustaDoctrineCustomTypesBundle;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
-class EkapustaDoctrineCustomTypesBundleTest extends \PHPUnit_Framework_TestCase
+class EkapustaDoctrineCustomTypesBundleTest extends TestCase
 {
 
     public function testBuild()

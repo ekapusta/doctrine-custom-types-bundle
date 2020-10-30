@@ -2,12 +2,14 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM;
 
-abstract class OrmTestCase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class OrmTestCase extends TestCase
 {
 
     protected $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = new \Doctrine\ORM\Configuration();
         $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
