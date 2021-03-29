@@ -6,7 +6,6 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 abstract class SelfDescribedFunctionNode extends FunctionNode
 {
-
     const RETURN_TYPE_STRING = 'string';
     const RETURN_TYPE_NUMERIC = 'numeric';
     const RETURN_TYPE_DATETIME = 'datetime';

@@ -1,33 +1,31 @@
 {
-    "name": "ekapusta/doctrine-custom-types-bundle",
-    "description": "Add custom types like MySQL's enum",
-    "type": "symfony-bundle",
-    "autoload": {
-        "psr-4": {
-            "Ekapusta\\DoctrineCustomTypesBundle\\": ""
+    "name" : "ekapusta/doctrine-custom-types-bundle",
+    "description" : "Add custom types like MySQL's enum",
+    "type" : "symfony-bundle",
+    "autoload" : {
+        "psr-4" : {
+            "Ekapusta\\DoctrineCustomTypesBundle\\" : ""
         }
     },
-    "require": {
+    "require" : {
         "php" : "^5.5 || ^7.0",
-        "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/orm": "^2.3"
+        "doctrine/doctrine-bundle" : "^1.6",
+        "doctrine/orm" : "^2.3"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^5 || ^6",
-        "symfony/yaml": "^3 || ^4 || ^5"
+    "require-dev" : {
+        "phpunit/phpunit" : "^5 || ^6",
+        "symfony/yaml" : "^3 || ^4 || ^5"
     },
-    "scripts": {
-        "post-autoload-dump": [
-            "echo vendor/bin/phpunit --debug '$@' > vendor/bin/phpunit-debug",
-            "echo /usr/bin/env phpdbg -qrr vendor/bin/phpunit --coverage-html ./Resources/coverage --coverage-text '$@' > vendor/bin/phpunit-coverage",
-            "chmod +x vendor/bin/phpunit-*"
-        ]
+    "scripts" : {
+        "fix": "php-cs-fixer fix --config=.php_cs.dist $(git ls-files '*.php') $(git ls-files --exclude-standard --others '*.php')",
+        "f": "@fix",
+        "test": "phpunit --columns max --color=always",
+        "coverage": "phpdbg -qrr vendor/bin/phpunit --coverage-html ./.coverage --coverage-text"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Alexander Ustimenko",
-            "email": "ustimenko.alexander@gmail.com"
+    "license" : "MIT",
+    "authors" : [{
+            "name" : "Alexander Ustimenko",
+            "email" : "ustimenko.alexander@gmail.com"
         }
     ]
 }

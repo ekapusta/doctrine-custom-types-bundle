@@ -2,8 +2,8 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DependencyInjection;
 
-use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\EkapustaDoctrineCustomTypesExtension;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql\CubeDistanceFunction;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
 class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
 {
-
     public function testLoaded()
     {
         $extension = new EkapustaDoctrineCustomTypesExtension();
@@ -105,7 +104,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
 
         $this->assertContains([
             'addCustomNumericFunction',
-            ['CUBE_DISTANCE', CubeDistanceFunction::class]
+            ['CUBE_DISTANCE', CubeDistanceFunction::class],
         ], $container->getDefinition($doctrineOrmConfigId)->getMethodCalls());
     }
 
@@ -115,7 +114,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
             ['doctrine.orm.default_configuration', [
                 'orm' => [
                     'auto_mapping' => true,
-                ]
+                ],
             ]],
             ['doctrine.orm.default_configuration', [
                 'orm' => [
@@ -125,7 +124,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
                         'another' => [
                         ],
                     ],
-                ]
+                ],
             ]],
             ['doctrine.orm.another_configuration', [
                 'orm' => [
@@ -135,7 +134,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
                         'another' => [
                         ],
                     ],
-                ]
+                ],
             ]],
         ];
     }

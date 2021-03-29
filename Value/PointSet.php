@@ -7,7 +7,6 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Value;
  */
 class PointSet extends Base implements \JsonSerializable
 {
-
     /**
      * @var Point[]
      */
@@ -24,7 +23,7 @@ class PointSet extends Base implements \JsonSerializable
         $this->setPoints($args);
     }
 
-    public function jsonSerialize ()
+    public function jsonSerialize()
     {
         return array_values($this->points);
     }
@@ -53,6 +52,7 @@ class PointSet extends Base implements \JsonSerializable
 
     /**
      * @param array|Point[] $points
+     *
      * @return self
      */
     private function setPoints(array $points)
@@ -61,11 +61,12 @@ class PointSet extends Base implements \JsonSerializable
             throw new \InvalidArgumentException('Set should have more than one point');
         }
 
-        $this->points    = [];
+        $this->points = [];
         $this->dimension = 0;
         foreach ($points as $pointParameter) {
             $this->addPoint($pointParameter);
         }
+
         return $this;
     }
 

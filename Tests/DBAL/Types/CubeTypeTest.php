@@ -3,16 +3,15 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\PostgreSQL92Platform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
 use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
 use PHPUnit\Framework\TestCase;
-use Doctrine\DBAL\Types\ConversionException;
 
 class CubeTypeTest extends TestCase
 {
-
     /**
      * @var CubeType
      */
@@ -22,7 +21,7 @@ class CubeTypeTest extends TestCase
 
     protected function setUp()
     {
-        if (! Type::hasType('cube')) {
+        if (!Type::hasType('cube')) {
             Type::addType('cube', CubeType::class);
         }
 
@@ -101,7 +100,7 @@ class CubeTypeTest extends TestCase
             ['-'],
             ['-1'],
             ['1, 2, 3'],
-            ['(0, 1), (1)']
+            ['(0, 1), (1)'],
         ];
     }
 
@@ -141,5 +140,4 @@ class CubeTypeTest extends TestCase
             ['(0, -1), (2, 0.03)',  new PointSet(new Point(0, -1), new Point(2, 0.03))],
         ];
     }
-
 }

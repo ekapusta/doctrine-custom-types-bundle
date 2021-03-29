@@ -3,8 +3,8 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\EventListener;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\DefinableType;
 use Doctrine\DBAL\Schema\Column;
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\DefinableType;
 
 class DbalDummyType extends DefinableType
 {

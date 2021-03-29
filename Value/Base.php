@@ -4,16 +4,15 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Value;
 
 abstract class Base
 {
-
     public function equals($o)
     {
         if ($this === $o) {
             return true;
         }
         if (false
-            || is_null($o)
+            || null === $o
             || !is_object($o)
-            || get_class($this) != get_class($o)
+            || static::class != get_class($o)
         ) {
             return false;
         }
@@ -24,7 +23,7 @@ abstract class Base
     /**
      * @codeCoverageIgnore
      *
-     * @return boolean
+     * @return bool
      */
     abstract protected function isPropertiesEqual($o);
 }
