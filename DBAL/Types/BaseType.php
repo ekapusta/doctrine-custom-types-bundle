@@ -3,6 +3,7 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL\Types;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 abstract class BaseType extends Type
 {
@@ -11,5 +12,10 @@ abstract class BaseType extends Type
     public function getName()
     {
         return $this->name;
+    }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
     }
 }
