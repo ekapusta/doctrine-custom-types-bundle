@@ -2,15 +2,14 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
+use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
 use PHPUnit\Framework\TestCase;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 
 class EnumTypeTest extends TestCase
 {
-
     /**
      * @var EnumType
      */
@@ -48,7 +47,7 @@ class EnumTypeTest extends TestCase
     {
         return [
             [[]],
-            [['values' => []]]
+            [['values' => []]],
         ];
     }
 
@@ -62,11 +61,11 @@ class EnumTypeTest extends TestCase
     public function testColumnDefinitionExtracted()
     {
         $column = $this->type->getColumnDefinition([
-            'field'     => 'status',
-            'default'   => 'start',
-            'comment'   => 'Some status field',
-            'null'      => 'NO',
-            'type'      => "enum('start', 'process', 'finish')",
+            'field' => 'status',
+            'default' => 'start',
+            'comment' => 'Some status field',
+            'null' => 'NO',
+            'type' => "enum('start', 'process', 'finish')",
         ], $this->platform);
 
         $this->assertNotNull($column);

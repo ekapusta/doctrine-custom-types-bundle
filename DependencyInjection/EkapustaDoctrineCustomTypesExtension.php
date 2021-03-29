@@ -3,17 +3,16 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\DependencyInjection;
 
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
+use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
 
 class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependExtensionInterface
 {
-
     public function prepend(ContainerBuilder $container)
     {
         $bundles = $container->getParameter('kernel.bundles');
@@ -54,8 +53,8 @@ class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependE
         $functions = new FunctionRegistry($container->getExtensionConfig('doctrine'));
 
         return [
-            'string_functions'   => $functions->getStringFunctions(),
-            'numeric_functions'  => $functions->getNumericFunctions(),
+            'string_functions' => $functions->getStringFunctions(),
+            'numeric_functions' => $functions->getNumericFunctions(),
             'datetime_functions' => $functions->getDatetimeFunctions(),
         ];
     }

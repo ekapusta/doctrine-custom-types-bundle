@@ -3,7 +3,7 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql;
 
 /**
- * Produces the intersection of two cubes
+ * Produces the intersection of two cubes.
  *
  * "CUBE_INTER" "(" ArithmeticPrimary "," ArithmeticPrimary ")"
  */

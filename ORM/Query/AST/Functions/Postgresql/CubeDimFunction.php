@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * Returns the number of dimensions of the cube
+ * Returns the number of dimensions of the cube.
  *
  * "CUBE_DIM" "(" ArithmeticPrimary ")"
  */

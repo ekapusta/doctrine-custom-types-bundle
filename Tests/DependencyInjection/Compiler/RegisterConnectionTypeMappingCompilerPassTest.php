@@ -5,30 +5,29 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DependencyInjection\Compiler;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler\RegisterConnectionTypeMappingCompilerPass;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\EkapustaDoctrineCustomTypesExtension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class RegisterConnectionTypeMappingCompilerPassTest extends TestCase
 {
-
     public function testDoctrineLoaded()
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', false);
 
         (new DoctrineExtension())->load([[
-            'dbal'  => [
-                'connections'        => [
-                    'default'   => [
-                        'driver'    => 'pdo_mysql',
+            'dbal' => [
+                'connections' => [
+                    'default' => [
+                        'driver' => 'pdo_mysql',
                     ],
                     'another' => [
-                        'driver'    => 'pdo_pgsql',
+                        'driver' => 'pdo_pgsql',
                     ],
                     'last' => [
-                        'driver'    => 'ibm_db2',
+                        'driver' => 'ibm_db2',
                     ],
-                ]
+                ],
             ],
         ]], $container);
 
@@ -82,6 +81,5 @@ class RegisterConnectionTypeMappingCompilerPassTest extends TestCase
         $typesArgument = $container->getDefinition($id)->getArgument(3);
         $this->assertNotEmpty($typesArgument);
         $this->assertContains($expectedType, $typesArgument);
-
     }
 }
