@@ -5,7 +5,6 @@ namespace Ekapusta\DoctrineCustomTypesBundle\DBAL\Types;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Types\Type;
 
 class EnumType extends DefinableType
 {
@@ -38,6 +37,7 @@ class EnumType extends DefinableType
         ];
 
         $column = new Column($tableColumn['field'], $this, $options);
+        $matches = [];
         if (preg_match_all("/'([^']+)'/", $tableColumn['type'], $matches)) {
             $column->setCustomSchemaOption('values', $matches[1]);
         }

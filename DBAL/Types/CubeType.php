@@ -39,6 +39,7 @@ class CubeType extends BaseType
             return null;
         }
 
+        $matches = [];
         if (!preg_match_all('/\([^\)]*\)/', $value, $matches)) {
             throw ConversionException::conversionFailed($value, $this->name);
         }

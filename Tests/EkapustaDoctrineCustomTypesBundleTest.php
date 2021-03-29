@@ -3,7 +3,6 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests;
 
 use Ekapusta\DoctrineCustomTypesBundle\EkapustaDoctrineCustomTypesBundle;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Ekapusta\DoctrineCustomTypesBundle\DependencyInjection\Compiler\RegisterConnectionTypeMappingCompilerPass;
