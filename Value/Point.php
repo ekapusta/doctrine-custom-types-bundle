@@ -7,7 +7,6 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Value;
  */
 class Point extends Base implements \JsonSerializable
 {
-
     private $values = [];
 
     public function __construct(/* ... */)
@@ -26,7 +25,7 @@ class Point extends Base implements \JsonSerializable
         }
     }
 
-    public function jsonSerialize ()
+    public function jsonSerialize()
     {
         return $this->values;
     }
@@ -64,7 +63,7 @@ class Point extends Base implements \JsonSerializable
             if (!is_numeric($value)) {
                 throw new \InvalidArgumentException('Multi point coordinate must be numeric.');
             }
-            $this->values[] = floatval($value);
+            $this->values[] = (float) $value;
         }
 
         return $this;

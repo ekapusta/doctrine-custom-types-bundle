@@ -7,7 +7,6 @@ use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
 
 class TypeRegistry
 {
-
     private $dbToDoctrine = [];
 
     private $doctrineToClass = [];
@@ -22,6 +21,7 @@ class TypeRegistry
     {
         $this->dbToDoctrine[$databaseName] = [$doctrineName, $compatibleDriverMask];
         $this->doctrineToClass[$doctrineName] = $className;
+
         return $this;
     }
 
@@ -30,10 +30,11 @@ class TypeRegistry
         $result = [];
         foreach ($this->dbToDoctrine as $databaseName => $row) {
             list($doctrineName, $compatibleDriverMask) = $row;
-            if (is_null($compatibleDriverMask) || preg_match($compatibleDriverMask, $connectionDriver)) {
+            if (null === $compatibleDriverMask || preg_match($compatibleDriverMask, $connectionDriver)) {
                 $result[$databaseName] = $doctrineName;
             }
         }
+
         return $result;
     }
 

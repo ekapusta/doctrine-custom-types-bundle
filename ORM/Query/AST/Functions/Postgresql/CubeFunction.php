@@ -7,7 +7,7 @@ use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\Query\SqlWalker;
 
 /**
- * Makes a new cube
+ * Makes a new cube.
  *
  * "CUBE" "(" ArithmeticPrimary ")"
  * "CUBE" "(" ArithmeticPrimary "," ArithmeticPrimary ")"
@@ -26,14 +26,15 @@ class CubeFunction extends PostgresFunctionNode
 
     public function getSql(SqlWalker $sqlWalker)
     {
-        if (!is_null($this->cube3)) {
+        if (null !== $this->cube3) {
             return sprintf('%s(%s, %s, %s)', $this->getName(),
                 $this->cube1->dispatch($sqlWalker), $this->cube2->dispatch($sqlWalker), $this->cube3->dispatch($sqlWalker));
         }
-        if (!is_null($this->cube2)) {
+        if (null !== $this->cube2) {
             return sprintf('%s(%s, %s)', $this->getName(),
                 $this->cube1->dispatch($sqlWalker), $this->cube2->dispatch($sqlWalker));
         }
+
         return sprintf('%s(%s)', $this->getName(), $this->cube1->dispatch($sqlWalker));
     }
 
@@ -45,7 +46,7 @@ class CubeFunction extends PostgresFunctionNode
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
         $this->cube1 = $parser->ArithmeticPrimary();
-            if ($lexer->isNextToken(Lexer::T_COMMA)) {
+        if ($lexer->isNextToken(Lexer::T_COMMA)) {
             $parser->match(Lexer::T_COMMA);
             $this->cube2 = $parser->ArithmeticPrimary();
         }

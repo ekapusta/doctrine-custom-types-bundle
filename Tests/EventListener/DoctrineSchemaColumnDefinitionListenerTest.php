@@ -1,4 +1,5 @@
 <?php
+
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\EventListener;
 
 use Doctrine\DBAL\Connection;
@@ -12,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineSchemaColumnDefinitionListenerTest extends TestCase
 {
-
     public function testDefaultColumnNotExtracted()
     {
         $args = $this->defineTableColumn(['Type' => 'varchar(255)']);
@@ -35,11 +35,12 @@ class DoctrineSchemaColumnDefinitionListenerTest extends TestCase
 
     private function defineTableColumn(array $tableColumn, $platform = null)
     {
-        $platform    = $platform ?: new MySqlPlatform();
-        $driver      = new Driver\PDOMySql\Driver();
-        $connection  = new Connection(['platform' => $platform], $driver);
-        $args        = new SchemaColumnDefinitionEventArgs($tableColumn, 'sometable', 'somedb', $connection);
+        $platform = $platform ?: new MySqlPlatform();
+        $driver = new Driver\PDOMySql\Driver();
+        $connection = new Connection(['platform' => $platform], $driver);
+        $args = new SchemaColumnDefinitionEventArgs($tableColumn, 'sometable', 'somedb', $connection);
         (new DoctrineSchemaColumnDefinitionListener())->onSchemaColumnDefinition($args);
+
         return $args;
     }
 }

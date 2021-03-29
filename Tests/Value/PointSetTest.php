@@ -4,8 +4,8 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\Value;
 
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
 use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
-use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
 class PointSetTest extends TestCase
 {
@@ -49,7 +49,7 @@ class PointSetTest extends TestCase
 
     public function testPointSetsEquals()
     {
-        $one     = new PointSet(new Point(1, 2), new Point(-3, 4));
+        $one = new PointSet(new Point(1, 2), new Point(-3, 4));
         $another = new PointSet(new Point(1.0, 2), new Point('-3', 4));
         $this->assertTrue($one->equals($another));
     }

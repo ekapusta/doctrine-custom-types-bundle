@@ -9,7 +9,6 @@ use RuntimeException;
 
 class FunctionRegistryTest extends TestCase
 {
-
     public function testOnEmptyConfigThereAreNoDrivers()
     {
         $registry = new FunctionRegistry([]);
@@ -21,7 +20,7 @@ class FunctionRegistryTest extends TestCase
     {
         $configs = [];
         $configs[0]['dbal']['driver'] = 'pdo_mysql';
-        $configs[1]['dbal']['connections']['default']['driver']  = 'pdo_mysql';
+        $configs[1]['dbal']['connections']['default']['driver'] = 'pdo_mysql';
         $configs[1]['dbal']['connections']['postgres']['driver'] = 'pdo_pgsql';
 
         $registry = new FunctionRegistry($configs);

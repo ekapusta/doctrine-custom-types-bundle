@@ -7,7 +7,6 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Entities;
  */
 class Reference
 {
-
     /**
      * @Id @Column(type="string") @GeneratedValue
      */

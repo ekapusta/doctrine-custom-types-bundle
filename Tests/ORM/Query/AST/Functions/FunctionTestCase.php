@@ -2,11 +2,11 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions;
 
-use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\OrmTestCase;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
+use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\OrmTestCase;
 
 /**
- * Tests concrete function(-s) parse and SQL generation
+ * Tests concrete function(-s) parse and SQL generation.
  */
 abstract class FunctionTestCase extends OrmTestCase
 {

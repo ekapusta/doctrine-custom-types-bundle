@@ -4,8 +4,8 @@ namespace Ekapusta\DoctrineCustomTypesBundle\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
+use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
 
 class CubeType extends BaseType
 {
@@ -18,7 +18,7 @@ class CubeType extends BaseType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return $value;
         }
 
@@ -39,6 +39,7 @@ class CubeType extends BaseType
             return null;
         }
 
+        $matches = [];
         if (!preg_match_all('/\([^\)]*\)/', $value, $matches)) {
             throw ConversionException::conversionFailed($value, $this->name);
         }
@@ -64,7 +65,7 @@ class CubeType extends BaseType
     {
         return implode(', ', [
             $this->formatPoint($cube->getFirstPoint()),
-            $this->formatPoint($cube->getLastPoint())
+            $this->formatPoint($cube->getLastPoint()),
         ]);
     }
 
@@ -74,6 +75,7 @@ class CubeType extends BaseType
         if (count($values) == 1 && trim($values[0]) == '') {
             return null;
         }
+
         return new Point($values);
     }
 }

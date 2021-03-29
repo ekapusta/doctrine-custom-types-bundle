@@ -4,7 +4,6 @@ namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions;
 
 class FunctionRegistry
 {
-
     private $knownDrivers = '';
     private $functionsPath = '.';
     private $functions = null;
@@ -12,7 +11,7 @@ class FunctionRegistry
     public function __construct($doctrineConfigurations, $functionsPath = null)
     {
         $this->knownDrivers = $this->extractKnownDrivers($doctrineConfigurations);
-        $this->functionsPath = $functionsPath ?: __DIR__ . '/*/*Function.php';
+        $this->functionsPath = $functionsPath ?: __DIR__.'/*/*Function.php';
     }
 
     /**
@@ -59,6 +58,7 @@ class FunctionRegistry
             }
             $result[$className::getName()] = $className;
         }
+
         return $result;
     }
 
@@ -110,11 +110,12 @@ class FunctionRegistry
         $content = file_get_contents($path);
         $matches = [];
         if (preg_match('/namespace\s+([^;]+)/', $content, $matches)) {
-            $className .= $matches[1] . '\\';
+            $className .= $matches[1].'\\';
         }
         if (preg_match('/class\s+([^\s]+)/', $content, $matches)) {
             $className .= $matches[1];
         }
+
         return $className;
     }
 }

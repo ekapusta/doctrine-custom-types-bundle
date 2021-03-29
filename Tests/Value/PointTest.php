@@ -3,12 +3,11 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\Value;
 
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
-use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
 class PointTest extends TestCase
 {
-
     public function testEmptyPointEqualsToOneDimensionalZeroPoint()
     {
         $this->assertEquals(new Point(0), new Point());
