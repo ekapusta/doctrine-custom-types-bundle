@@ -2,10 +2,13 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Value;
 
+use InvalidArgumentException;
+use JsonSerializable;
+
 /**
  * @see https://www.postgresql.org/docs/current/static/cube.html
  */
-class PointSet extends Base implements \JsonSerializable
+class PointSet extends Base implements JsonSerializable
 {
     /**
      * @var Point[]
@@ -58,7 +61,7 @@ class PointSet extends Base implements \JsonSerializable
     private function setPoints(array $points)
     {
         if (count($points) <= 1) {
-            throw new \InvalidArgumentException('Set should have more than one point');
+            throw new InvalidArgumentException('Set should have more than one point');
         }
 
         $this->points = [];
@@ -77,11 +80,11 @@ class PointSet extends Base implements \JsonSerializable
         if (0 == $this->dimension) {
             $this->dimension = $point->getDimension();
         } elseif ($point->getDimension() != $this->dimension) {
-            throw new \InvalidArgumentException('Points dimensions must be equals!');
+            throw new InvalidArgumentException('Points dimensions must be equals!');
         }
         $hashKey = json_encode($point);
         if (isset($this->points[$hashKey])) {
-            throw new \InvalidArgumentException('Points must be unique!');
+            throw new InvalidArgumentException('Points must be unique!');
         }
         $this->points[$hashKey] = $point;
 

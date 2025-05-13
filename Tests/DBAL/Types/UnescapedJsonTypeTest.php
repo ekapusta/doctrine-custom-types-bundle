@@ -2,7 +2,6 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\JsonType;
 use Doctrine\DBAL\Types\Type;
@@ -40,7 +39,7 @@ class UnescapedJsonTypeTest extends TestCase
     {
         $sql = $this->type->getSQLDeclaration([], $this->platform);
 
-        $this->assertEquals("LONGTEXT", $sql);
+        $this->assertEquals('LONGTEXT', $sql);
     }
 
     public function testConvert()

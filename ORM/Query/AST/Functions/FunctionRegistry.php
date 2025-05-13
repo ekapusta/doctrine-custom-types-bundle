@@ -2,6 +2,9 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions;
 
+use GlobIterator;
+use RuntimeException;
+
 class FunctionRegistry
 {
     private $knownDrivers = '';
@@ -23,7 +26,7 @@ class FunctionRegistry
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getStringFunctions()
     {
@@ -31,7 +34,7 @@ class FunctionRegistry
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getNumericFunctions()
     {
@@ -39,7 +42,7 @@ class FunctionRegistry
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getDatetimeFunctions()
     {
@@ -84,7 +87,7 @@ class FunctionRegistry
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function loadFunctions()
     {
@@ -93,10 +96,10 @@ class FunctionRegistry
         }
 
         /* @var \SplFileInfo $fileInfo */
-        foreach (new \GlobIterator($this->functionsPath) as $fileInfo) {
+        foreach (new GlobIterator($this->functionsPath) as $fileInfo) {
             $className = $this->getClassNameFromFile($fileInfo->getRealPath());
             if (!class_exists($className)) {
-                throw new \RuntimeException("Classname $className not exists under $this->functionsPath. Please setup your autoload carefully.");
+                throw new RuntimeException("Classname $className not exists under $this->functionsPath. Please setup your autoload carefully.");
             }
             $this->functions[] = $className;
         }
