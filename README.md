@@ -1,6 +1,6 @@
 # Doctrine custom types bundle
 
-[![Build Status](https://travis-ci.org/ekapusta/doctrine-custom-types-bundle.svg?branch=develop)](https://travis-ci.org/ekapusta/doctrine-custom-types-bundle)
+[![Test](https://github.com/ekapusta/doctrine-custom-types-bundle/actions/workflows/test.yaml/badge.svg)](https://github.com/ekapusta/doctrine-custom-types-bundle/actions/workflows/test.yaml)
 
 Add custom types like MySQL's enum.
 
