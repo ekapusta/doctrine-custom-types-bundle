@@ -91,7 +91,11 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
         $container->setParameter('kernel.debug', false);
         $container->setParameter('kernel.root_dir', __DIR__);
         $container->setParameter('kernel.environment', 'prod');
-        $container->setParameter('kernel.bundles', ['DoctrineBundle' => new DoctrineBundle()]);
+        $container->setParameter('kernel.bundles', ['DoctrineBundle' => $bundle = new DoctrineBundle()]);
+        $container->setParameter('kernel.bundles_metadata', ['DoctrineBundle' => [
+            'path' => $bundle->getPath(),
+            'namespace' => $bundle->getNamespace(),
+        ]]);
         $doctrine = new DoctrineExtension();
         $container->registerExtension($doctrine);
 

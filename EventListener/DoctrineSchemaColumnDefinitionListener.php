@@ -19,7 +19,7 @@ class DoctrineSchemaColumnDefinitionListener
         $dbType = strtolower(current(array_filter($typeCandidates)));
         $dbType = strtok($dbType, '(), ');
 
-        $platform = $args->getDatabasePlatform();
+        $platform = $args->getConnection()->getDatabasePlatform();
         $type = Type::getType($platform->getDoctrineTypeMapping($dbType));
         if ($type instanceof ColumnDefinerInterface) {
             $args->setColumn($type->getColumnDefinition($tableColumn, $platform));
