@@ -2,9 +2,9 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL\Types;
 
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
+use InvalidArgumentException;
 
 class EnumType extends DefinableType
 {

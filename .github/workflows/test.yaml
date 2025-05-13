@@ -1,13 +1,18 @@
 name: Test
 run-name: ${{ github.actor }} is testing
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
 jobs:
   Clone-install-test:
-    name: Test on PHP ${{ matrix.php-versions }}
+    name: Test on PHP ${{ matrix.php-versions }} ${{ matrix.composer-update-param  }}
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
+        composer-update-param: ['']
         php-versions:
           - 5.6
           - 7.0
@@ -15,14 +20,15 @@ jobs:
           - 7.2
           - 7.3
           - 7.4
+        include:
+          - php-versions: 5.6
+            composer-update-param: '--prefer-lowest'
+          - php-versions: 7.4
+            composer-update-param: '--prefer-lowest' 
     steps:
       - name: Check out
         uses: actions/checkout@v4
 
-      # - name: Link composer.lock dist
-      #   run: ln -s composer.lock.dist composer.lock
-
-        # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -42,6 +48,10 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Downgrade to lowest Composer versions
+        if: ${{ matrix.composer-update-param }}
+        run: composer update ${{ matrix.composer-update-param }} --no-progress --prefer-dist --optimize-autoloader
 
       - name: Run tests
         run: vendor/bin/phpunit

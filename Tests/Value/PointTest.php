@@ -5,6 +5,7 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\Value;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class PointTest extends TestCase
 {
@@ -68,7 +69,7 @@ class PointTest extends TestCase
         return [
             [null],
             [[1, 2, 3]],
-            [new \stdClass()],
+            [new stdClass()],
             [new Point(1, 2, 3, 4)],
             [new Point(3, 2, 1)],
         ];

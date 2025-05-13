@@ -11,15 +11,15 @@ abstract class OrmTestCase extends TestCase
     protected function setUp()
     {
         $config = new \Doctrine\ORM\Configuration();
-        $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
-        $config->setQueryCacheImpl(new \Doctrine\Common\Cache\ArrayCache());
         $config->setProxyDir(sys_get_temp_dir().'/DoctrineTestsProxies');
         $config->setProxyNamespace('Ekapusta\DoctrineCustomTypesBundle\Tests\Proxies');
         $config->setAutoGenerateProxyClasses(true);
-        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver(__DIR__.'/Entities'));
+        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver(__DIR__.'/Entities', false));
         $this->configure($config);
         $connection = ['driver' => 'pdo_sqlite', 'memory' => true];
+        error_reporting(E_ALL & ~E_WARNING);
         $this->entityManager = \Doctrine\ORM\EntityManager::create($connection, $config);
+        error_reporting(E_ALL);
     }
 
     abstract protected function configure(\Doctrine\ORM\Configuration $config);

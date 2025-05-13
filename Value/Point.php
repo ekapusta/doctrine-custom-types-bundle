@@ -2,10 +2,13 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Value;
 
+use InvalidArgumentException;
+use JsonSerializable;
+
 /**
  * @see https://www.postgresql.org/docs/current/static/cube.html
  */
-class Point extends Base implements \JsonSerializable
+class Point extends Base implements JsonSerializable
 {
     private $values = [];
 
@@ -61,7 +64,7 @@ class Point extends Base implements \JsonSerializable
         }
         foreach ($values as $value) {
             if (!is_numeric($value)) {
-                throw new \InvalidArgumentException('Multi point coordinate must be numeric.');
+                throw new InvalidArgumentException('Multi point coordinate must be numeric.');
             }
             $this->values[] = (float) $value;
         }

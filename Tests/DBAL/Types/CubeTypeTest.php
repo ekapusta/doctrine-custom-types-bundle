@@ -9,6 +9,7 @@ use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
 use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class CubeTypeTest extends TestCase
 {
@@ -58,7 +59,7 @@ class CubeTypeTest extends TestCase
             ['-'],
             [''],
             [[[]]],
-            [new \stdClass()],
+            [new stdClass()],
         ];
     }
 

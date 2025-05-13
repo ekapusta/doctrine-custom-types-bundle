@@ -6,6 +6,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Ekapusta\DoctrineCustomTypesBundle\Value\Point;
 use Ekapusta\DoctrineCustomTypesBundle\Value\PointSet;
+use InvalidArgumentException;
 
 class CubeType extends BaseType
 {
@@ -51,7 +52,7 @@ class CubeType extends BaseType
             }
 
             return $this->parsePoint($match[0]);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             throw ConversionException::conversionFailedFormat($value, $this->name, $e->getMessage());
         }
     }

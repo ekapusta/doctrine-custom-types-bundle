@@ -2,10 +2,10 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class EnumTypeTest extends TestCase

@@ -2,8 +2,8 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL\Types;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 abstract class BaseType extends Type
 {
