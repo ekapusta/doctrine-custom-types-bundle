@@ -4,6 +4,7 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Types\JsonType;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\UnescapedJsonType;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,9 @@ class UnescapedJsonTypeTest extends TestCase
 
     protected function setUp()
     {
+        if (!class_exists(JsonType::class)) {
+            $this->markTestSKipped('Class JsonType not yet exists');
+        }
         if (!Type::hasType('unescaped_json')) {
             Type::addType('unescaped_json', UnescapedJsonType::class);
         }
