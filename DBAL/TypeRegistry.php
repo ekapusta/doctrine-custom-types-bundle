@@ -2,6 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL;
 
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\BinaryHashType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\UnescapedJsonType;
@@ -17,6 +18,7 @@ class TypeRegistry
         $this->registerType('enum', 'enum', EnumType::class, '/mysql/i');
         $this->registerType('cube', 'cube', CubeType::class, '/pgsql/i');
         $this->registerType('unescaped_json', 'unescaped_json', UnescapedJsonType::class, '/pgsql/i');
+        $this->registerType('binary_hash', 'binary_hash', BinaryHashType::class, '/mysql/i');
     }
 
     private function registerType($databaseName, $doctrineName, $className, $compatibleDriverMask = null)
