@@ -2,17 +2,15 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-if (!class_exists(Doctrine\DBAL\Platforms\MySqlPlatform::class)) {
+if (class_exists(Doctrine\DBAL\Platforms\MySQLPlatform::class) && !class_exists(Doctrine\DBAL\Platforms\MySqlPlatform::class)) {
     class_alias(Doctrine\DBAL\Platforms\MySQLPlatform::class, Doctrine\DBAL\Platforms\MySqlPlatform::class);
 }
 
-if (!class_exists(Doctrine\DBAL\Platforms\PostgreSQL92Platform::class)) {
-    if (class_exists(Doctrine\DBAL\Platforms\PostgreSQLPlatform::class)) {
-        class_alias(Doctrine\DBAL\Platforms\PostgreSQLPlatform::class, Doctrine\DBAL\Platforms\PostgreSQL92Platform::class);
-    }
-    if (class_exists(Doctrine\DBAL\Platforms\PostgreSqlPlatform::class)) {
-        class_alias(Doctrine\DBAL\Platforms\PostgreSqlPlatform::class, Doctrine\DBAL\Platforms\PostgreSQL92Platform::class);
-    }
+if (class_exists(Doctrine\DBAL\Platforms\PostgreSQLPlatform::class) && !class_exists(Doctrine\DBAL\Platforms\PostgreSQL92Platform::class)) {
+    class_alias(Doctrine\DBAL\Platforms\PostgreSQLPlatform::class, Doctrine\DBAL\Platforms\PostgreSQL92Platform::class);
+}
+if (class_exists(Doctrine\DBAL\Platforms\PostgreSqlPlatform::class) && !class_exists(Doctrine\DBAL\Platforms\PostgreSQL92Platform::class)) {
+    class_alias(Doctrine\DBAL\Platforms\PostgreSqlPlatform::class, Doctrine\DBAL\Platforms\PostgreSQL92Platform::class);
 }
 
 if (!class_exists(Doctrine\DBAL\Driver\PDOMySql\Driver::class)) {

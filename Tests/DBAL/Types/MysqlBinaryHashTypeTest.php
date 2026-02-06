@@ -19,7 +19,7 @@ final class MysqlBinaryHashTypeTest extends TestCase
     /** @var MySqlPlatform */
     private $platform;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $typeName = BinaryHashType::TYPE_NAME;
 
