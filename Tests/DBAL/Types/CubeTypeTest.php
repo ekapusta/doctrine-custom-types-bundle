@@ -20,7 +20,7 @@ class CubeTypeTest extends TestCase
 
     private $platform;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!Type::hasType('cube')) {
             Type::addType('cube', CubeType::class);

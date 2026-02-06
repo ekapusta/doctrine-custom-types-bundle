@@ -17,7 +17,7 @@ class UnescapedJsonTypeTest extends TestCase
 
     private $platform;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JsonType::class)) {
             $this->markTestSKipped('Class JsonType not yet exists');

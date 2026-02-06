@@ -8,7 +8,7 @@ abstract class OrmTestCase extends TestCase
 {
     protected $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = new \Doctrine\ORM\Configuration();
         $config->setProxyDir(sys_get_temp_dir().'/DoctrineTestsProxies');

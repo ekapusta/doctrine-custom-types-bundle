@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false"
-    backupStaticAttributes="false" bootstrap="Tests/bootstrap.php" colors="true" convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" cacheResult="false">
-
-    <php>
-        <ini name="error_reporting" value="-1" />
-    </php>
-
-    <testsuites>
-        <testsuite name="Doctrine custom types bundle test suite">
-            <directory suffix="Test.php">./Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>DBAL</directory>
-            <directory>DependencyInjection</directory>
-            <directory>EventListener</directory>
-            <directory>ORM</directory>
-            <directory>Value</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    bootstrap="Tests/bootstrap.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    cacheResult="false">
+  <coverage>
+    <include>
+      <directory>DBAL</directory>
+      <directory>DependencyInjection</directory>
+      <directory>EventListener</directory>
+      <directory>ORM</directory>
+      <directory>Value</directory>
+    </include>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+  </php>
+  <testsuites>
+    <testsuite name="Doctrine custom types bundle test suite">
+      <directory suffix="Test.php">./Tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
