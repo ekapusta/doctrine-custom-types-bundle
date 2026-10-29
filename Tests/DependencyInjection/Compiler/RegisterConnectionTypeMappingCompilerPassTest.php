@@ -65,6 +65,7 @@ class RegisterConnectionTypeMappingCompilerPassTest extends TestCase
     public function testTypesAddedWithRespectToCompatibility(ContainerBuilder $container)
     {
         $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.default_connection', 'enum');
+        $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.default_connection', 'native_uuid');
         $this->assertDefinitionExistsAndTypesContains($container, 'doctrine.dbal.another_connection', 'cube');
         $this->assertDefinitionExistsAndTypesAreEmpty($container, 'doctrine.dbal.last_connection');
     }
