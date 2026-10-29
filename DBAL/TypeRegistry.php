@@ -3,8 +3,10 @@
 namespace Ekapusta\DoctrineCustomTypesBundle\DBAL;
 
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\BinaryHashType;
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\BinaryUuidType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
+use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\NativeUuidType;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\UnescapedJsonType;
 
 class TypeRegistry
@@ -19,6 +21,8 @@ class TypeRegistry
         $this->registerType('cube', 'cube', CubeType::class, '/pgsql/i');
         $this->registerType('unescaped_json', 'unescaped_json', UnescapedJsonType::class, '/pgsql/i');
         $this->registerType('binary_hash', 'binary_hash', BinaryHashType::class, '/mysql/i');
+        $this->registerType('uuid', NativeUuidType::TYPE_NAME, NativeUuidType::class, '/mysql/i');
+        $this->registerType(BinaryUuidType::TYPE_NAME, BinaryUuidType::TYPE_NAME, BinaryUuidType::class, '/mysql/i');
     }
 
     private function registerType($databaseName, $doctrineName, $className, $compatibleDriverMask = null)
