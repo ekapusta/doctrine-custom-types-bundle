@@ -2,8 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\DBAL\Types\JsonType;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\UnescapedJsonType;
 use PHPUnit\Framework\TestCase;
@@ -19,15 +18,12 @@ class UnescapedJsonTypeTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!class_exists(JsonType::class)) {
-            $this->markTestSKipped('Class JsonType not yet exists');
-        }
         if (!Type::hasType('unescaped_json')) {
             Type::addType('unescaped_json', UnescapedJsonType::class);
         }
 
         $this->type = Type::getType('unescaped_json');
-        $this->platform = new MySqlPlatform();
+        $this->platform = new MySQL80Platform();
     }
 
     public function testHasName()
@@ -39,7 +35,7 @@ class UnescapedJsonTypeTest extends TestCase
     {
         $sql = $this->type->getSQLDeclaration([], $this->platform);
 
-        $this->assertEquals('LONGTEXT', $sql);
+        $this->assertEquals('JSON', $sql);
     }
 
     public function testConvert()

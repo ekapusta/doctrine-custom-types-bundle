@@ -11,33 +11,41 @@ use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\UnescapedJsonType;
 
 class TypeRegistry
 {
-    private $dbToDoctrine = [];
+    /** @var array<string, array{string, string|null}> */
+    private array $dbToDoctrine = [];
 
-    private $doctrineToClass = [];
+    /** @var array<string, class-string> */
+    private array $doctrineToClass = [];
 
     public function __construct()
     {
-        $this->registerType('enum', 'enum', EnumType::class, '/mysql/i');
-        $this->registerType('cube', 'cube', CubeType::class, '/pgsql/i');
-        $this->registerType('unescaped_json', 'unescaped_json', UnescapedJsonType::class, '/pgsql/i');
-        $this->registerType('binary_hash', 'binary_hash', BinaryHashType::class, '/mysql/i');
-        $this->registerType('uuid', NativeUuidType::TYPE_NAME, NativeUuidType::class, '/mysql/i');
-        $this->registerType(BinaryUuidType::TYPE_NAME, BinaryUuidType::TYPE_NAME, BinaryUuidType::class, '/mysql/i');
+        $this->registerType(EnumType::TYPE_NAME, EnumType::class, '/mysql/i');
+        $this->registerType(CubeType::TYPE_NAME, CubeType::class, '/pgsql/i');
+        $this->registerType(UnescapedJsonType::TYPE_NAME, UnescapedJsonType::class, '/pgsql/i');
+        $this->registerType(BinaryHashType::TYPE_NAME, BinaryHashType::class, '/mysql/i');
+        $this->registerType('uuid', NativeUuidType::class, '/mysql/i');
+        $this->registerType(BinaryUuidType::TYPE_NAME, BinaryUuidType::class, '/mysql/i');
     }
 
-    private function registerType($databaseName, $doctrineName, $className, $compatibleDriverMask = null)
+    /**
+     * @param class-string $className type class with TYPE_NAME constant
+     */
+    private function registerType(string $databaseName, string $className, ?string $compatibleDriverMask = null): static
     {
+        $doctrineName = $className::TYPE_NAME;
         $this->dbToDoctrine[$databaseName] = [$doctrineName, $compatibleDriverMask];
         $this->doctrineToClass[$doctrineName] = $className;
 
         return $this;
     }
 
-    public function getDatabaseMapping($connectionDriver)
+    /**
+     * @return array<string, string> database type => doctrine type
+     */
+    public function getDatabaseMapping(string $connectionDriver): array
     {
         $result = [];
-        foreach ($this->dbToDoctrine as $databaseName => $row) {
-            list($doctrineName, $compatibleDriverMask) = $row;
+        foreach ($this->dbToDoctrine as $databaseName => [$doctrineName, $compatibleDriverMask]) {
             if (null === $compatibleDriverMask || preg_match($compatibleDriverMask, $connectionDriver)) {
                 $result[$databaseName] = $doctrineName;
             }
@@ -46,7 +54,10 @@ class TypeRegistry
         return $result;
     }
 
-    public function getDoctrineMapping()
+    /**
+     * @return array<string, class-string> doctrine type => class
+     */
+    public function getDoctrineMapping(): array
     {
         return $this->doctrineToClass;
     }

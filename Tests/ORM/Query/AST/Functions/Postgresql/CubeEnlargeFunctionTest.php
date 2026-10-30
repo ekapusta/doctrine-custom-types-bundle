@@ -6,7 +6,7 @@ use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions\FunctionTes
 
 class CubeEnlargeFunctionTest extends FunctionTestCase
 {
-    public function dataForFunctionParsedAndGeneratesSqlBack()
+    public static function dataForFunctionParsedAndGeneratesSqlBack()
     {
         return [
             [

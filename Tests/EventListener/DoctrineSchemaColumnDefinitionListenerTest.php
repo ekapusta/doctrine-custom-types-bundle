@@ -5,7 +5,7 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\EventListener;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Event\SchemaColumnDefinitionEventArgs;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\EventListener\DoctrineSchemaColumnDefinitionListener;
@@ -24,7 +24,7 @@ class DoctrineSchemaColumnDefinitionListenerTest extends TestCase
     public function testRegisteredDefinableColumnExtracted()
     {
         Type::addType('dummy', DbalDummyType::class);
-        $platform = new MySqlPlatform();
+        $platform = new MySQL80Platform();
         $platform->registerDoctrineTypeMapping('dummy', 'dummy');
 
         $args = $this->defineTableColumn(['Type' => 'dummy(1,2,3)'], $platform);
@@ -35,8 +35,8 @@ class DoctrineSchemaColumnDefinitionListenerTest extends TestCase
 
     private function defineTableColumn(array $tableColumn, $platform = null)
     {
-        $platform = $platform ?: new MySqlPlatform();
-        $driver = new Driver\PDOMySql\Driver();
+        $platform = $platform ?: new MySQL80Platform();
+        $driver = new Driver\PDO\MySQL\Driver();
         $connection = new Connection(['platform' => $platform], $driver);
         $args = new SchemaColumnDefinitionEventArgs($tableColumn, 'sometable', 'somedb', $connection);
         (new DoctrineSchemaColumnDefinitionListener())->onSchemaColumnDefinition($args);

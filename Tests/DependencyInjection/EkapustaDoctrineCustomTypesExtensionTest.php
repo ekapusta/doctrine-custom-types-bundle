@@ -28,7 +28,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
      */
     public function testColumnListenerServiceAdded(ContainerBuilder $container)
     {
-        $this->assertTrue($container->hasDefinition('ekapustadoctrinecustomtypes.schemacolumn.listener'));
+        $this->assertTrue($container->hasDefinition(EkapustaDoctrineCustomTypesExtension::SCHEMA_COLUMN_LISTENER_ID));
     }
 
     public function testRequiresDoctrineBundle()
@@ -112,7 +112,7 @@ class EkapustaDoctrineCustomTypesExtensionTest extends TestCase
         ], $container->getDefinition($doctrineOrmConfigId)->getMethodCalls());
     }
 
-    public function dataForDoctrineHasFunctionsAtEntityManager()
+    public static function dataForDoctrineHasFunctionsAtEntityManager()
     {
         return [
             ['doctrine.orm.default_configuration', [

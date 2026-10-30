@@ -7,18 +7,20 @@ use Doctrine\DBAL\Types\JsonType;
 
 class UnescapedJsonType extends JsonType
 {
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public const TYPE_NAME = 'unescaped_json';
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return json_decode($value, true);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string|false
     {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getName()
+    public function getName(): string
     {
-        return 'unescaped_json';
+        return self::TYPE_NAME;
     }
 }

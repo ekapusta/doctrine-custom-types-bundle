@@ -4,59 +4,65 @@ namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions;
 
 use GlobIterator;
 use RuntimeException;
+use SplFileInfo;
 
 class FunctionRegistry
 {
-    private $knownDrivers = '';
-    private $functionsPath = '.';
-    private $functions = null;
+    private string $knownDrivers;
+    private string $functionsPath;
 
-    public function __construct($doctrineConfigurations, $functionsPath = null)
+    /** @var list<class-string<SelfDescribedFunctionNode>>|null */
+    private ?array $functions = null;
+
+    public function __construct(array $doctrineConfigurations, ?string $functionsPath = null)
     {
         $this->knownDrivers = $this->extractKnownDrivers($doctrineConfigurations);
         $this->functionsPath = $functionsPath ?: __DIR__.'/*/*Function.php';
     }
 
-    /**
-     * @return string
-     */
-    public function getKnownDrivers()
+    public function getKnownDrivers(): string
     {
         return $this->knownDrivers;
     }
 
     /**
+     * @return array<string, class-string<SelfDescribedFunctionNode>>
+     *
      * @throws RuntimeException
      */
-    public function getStringFunctions()
+    public function getStringFunctions(): array
     {
         return $this->getFunctionsByType(SelfDescribedFunctionNode::RETURN_TYPE_STRING);
     }
 
     /**
+     * @return array<string, class-string<SelfDescribedFunctionNode>>
+     *
      * @throws RuntimeException
      */
-    public function getNumericFunctions()
+    public function getNumericFunctions(): array
     {
         return $this->getFunctionsByType(SelfDescribedFunctionNode::RETURN_TYPE_NUMERIC);
     }
 
     /**
+     * @return array<string, class-string<SelfDescribedFunctionNode>>
+     *
      * @throws RuntimeException
      */
-    public function getDatetimeFunctions()
+    public function getDatetimeFunctions(): array
     {
         return $this->getFunctionsByType(SelfDescribedFunctionNode::RETURN_TYPE_DATETIME);
     }
 
-    private function getFunctionsByType($type)
+    private function getFunctionsByType(string $type): array
     {
         $result = [];
         foreach ($this->loadFunctions() as $className) {
             if ($this->knownDrivers && !$className::isCompatibleWith($this->knownDrivers)) {
                 continue;
             }
-            if ($className::getReturnType() != $type) {
+            if ($className::getReturnType() !== $type) {
                 continue;
             }
             $result[$className::getName()] = $className;
@@ -65,37 +71,33 @@ class FunctionRegistry
         return $result;
     }
 
-    private function extractKnownDrivers($doctrineConfigurations)
+    private function extractKnownDrivers(array $doctrineConfigurations): string
     {
         $drivers = [];
         foreach ($doctrineConfigurations as $config) {
             if (isset($config['dbal']['driver'])) {
                 $drivers[] = $config['dbal']['driver'];
             }
-            if (empty($config['dbal']['connections'])) {
-                continue;
-            }
-            foreach ($config['dbal']['connections'] as $connection) {
+            foreach ($config['dbal']['connections'] ?? [] as $connection) {
                 if (isset($connection['driver'])) {
                     $drivers[] = $connection['driver'];
                 }
             }
         }
-        $drivers = array_unique($drivers);
 
-        return implode(' ', $drivers);
+        return implode(' ', array_unique($drivers));
     }
 
     /**
      * @throws RuntimeException
      */
-    private function loadFunctions()
+    private function loadFunctions(): array
     {
         if (is_array($this->functions)) {
             return $this->functions;
         }
 
-        /* @var \SplFileInfo $fileInfo */
+        /** @var SplFileInfo $fileInfo */
         foreach (new GlobIterator($this->functionsPath) as $fileInfo) {
             $className = $this->getClassNameFromFile($fileInfo->getRealPath());
             if (!class_exists($className)) {
@@ -104,10 +106,10 @@ class FunctionRegistry
             $this->functions[] = $className;
         }
 
-        return $this->functions;
+        return $this->functions ?? [];
     }
 
-    private function getClassNameFromFile($path)
+    private function getClassNameFromFile(string $path): string
     {
         $className = '';
         $content = file_get_contents($path);

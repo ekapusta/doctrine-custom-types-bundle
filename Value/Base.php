@@ -4,16 +4,12 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Value;
 
 abstract class Base
 {
-    public function equals($o)
+    public function equals(mixed $o): bool
     {
         if ($this === $o) {
             return true;
         }
-        if (false
-            || null === $o
-            || !is_object($o)
-            || static::class != get_class($o)
-        ) {
+        if (!$o instanceof self || $o::class !== static::class) {
             return false;
         }
 
@@ -21,9 +17,7 @@ abstract class Base
     }
 
     /**
-     * @codeCoverageIgnore
-     *
-     * @return bool
+     * @param static $o
      */
-    abstract protected function isPropertiesEqual($o);
+    abstract protected function isPropertiesEqual(self $o): bool;
 }

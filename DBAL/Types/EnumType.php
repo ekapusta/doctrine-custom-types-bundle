@@ -6,22 +6,22 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Column;
 use InvalidArgumentException;
 
-class EnumType extends DefinableType
+class EnumType extends BaseType implements ColumnDefinerInterface
 {
-    protected $name = 'enum';
+    public const TYPE_NAME = 'enum';
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        if (empty($fieldDeclaration['values'])) {
+        if (empty($column['values'])) {
             throw new InvalidArgumentException('Enum values are required!');
         }
 
-        $values = array_map(function ($val) { return "'".$val."'"; }, $fieldDeclaration['values']);
+        $values = array_map(fn ($value) => "'".$value."'", $column['values']);
 
         return 'enum('.implode(',', $values).')';
     }
 
-    public function getColumnDefinition(array $tableColumn, AbstractPlatform $platform)
+    public function getColumnDefinition(array $tableColumn, AbstractPlatform $platform): Column
     {
         $tableColumn += ['default' => null, 'null' => null, 'comment' => null];
         $options = [
@@ -29,7 +29,7 @@ class EnumType extends DefinableType
             'unsigned' => null,
             'fixed' => null,
             'default' => $tableColumn['default'],
-            'notnull' => (bool) ($tableColumn['null'] != 'YES'),
+            'notnull' => $tableColumn['null'] !== 'YES',
             'scale' => null,
             'precision' => null,
             'autoincrement' => false,

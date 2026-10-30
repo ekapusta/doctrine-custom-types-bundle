@@ -7,14 +7,14 @@ use Doctrine\DBAL\Types\Type;
 
 abstract class BaseType extends Type
 {
-    protected $name = null;
+    public const TYPE_NAME = '';
 
-    public function getName()
+    public function getName(): string
     {
-        return $this->name;
+        return static::TYPE_NAME;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }

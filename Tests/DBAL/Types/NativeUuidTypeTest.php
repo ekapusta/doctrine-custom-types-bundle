@@ -2,7 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
@@ -17,7 +17,7 @@ final class NativeUuidTypeTest extends TestCase
     /** @var NativeUuidType */
     private $type;
 
-    /** @var MySqlPlatform */
+    /** @var MySQL80Platform */
     private $platform;
 
     protected function setUp(): void
@@ -27,7 +27,7 @@ final class NativeUuidTypeTest extends TestCase
         }
 
         $this->type = Type::getType(NativeUuidType::TYPE_NAME);
-        $this->platform = new MySqlPlatform();
+        $this->platform = new MySQL80Platform();
     }
 
     public function testType()
@@ -46,7 +46,7 @@ final class NativeUuidTypeTest extends TestCase
         self::assertSame($value, $this->type->convertToPHPValue($value, $this->platform));
     }
 
-    public function values()
+    public static function values()
     {
         return [
             [null],

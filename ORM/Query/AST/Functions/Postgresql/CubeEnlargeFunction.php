@@ -2,10 +2,6 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql;
 
-use Doctrine\ORM\Query\Lexer;
-use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\SqlWalker;
-
 /**
  * Increases the size of a cube by a specified radius in at least n dimensions.
  * If the radius is negative the cube is shrunk instead.
@@ -22,34 +18,13 @@ use Doctrine\ORM\Query\SqlWalker;
  *
  * "CUBE_ENLARGE" "(" ArithmeticPrimary "," ArithmeticPrimary  "," ArithmeticPrimary ")"
  */
-class CubeEnlargeFunction extends PostgresFunctionNode
+final class CubeEnlargeFunction extends PostgresFunctionNode
 {
-    public $cube;
-    public $radius;
-    public $nDimensions;
+    protected const MIN_ARGUMENTS = 3;
+    protected const MAX_ARGUMENTS = 3;
 
-    public static function getReturnType()
+    public static function getReturnType(): string
     {
         return self::RETURN_TYPE_STRING;
-    }
-
-    public function getSql(SqlWalker $sqlWalker)
-    {
-        return sprintf('%s(%s, %s, %s)', $this->getName(), $this->cube->dispatch($sqlWalker),
-            $this->radius->dispatch($sqlWalker), $this->nDimensions->dispatch($sqlWalker));
-    }
-
-    public function parse(Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->cube = $parser->ArithmeticPrimary();
-        $parser->match(Lexer::T_COMMA);
-        $this->radius = $parser->ArithmeticPrimary();
-        $parser->match(Lexer::T_COMMA);
-        $this->nDimensions = $parser->ArithmeticPrimary();
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 }

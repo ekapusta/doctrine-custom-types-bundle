@@ -10,55 +10,43 @@ use JsonSerializable;
  */
 class PointSet extends Base implements JsonSerializable
 {
+    /** @var array<string, Point> */
+    private array $points = [];
+
+    private int $dimension = 0;
+
     /**
-     * @var Point[]
+     * @param int|float|string|array|Point ...$points anything Point constructor accepts as single argument
      */
-    private $points = [];
-
-    private $dimension = 0;
-
-    public function __construct(/* ... */)
+    public function __construct(mixed ...$points)
     {
-        $args = func_get_args();
-        if (empty($args)) {
-            $args = [new Point(0), new Point(1)];
+        if (empty($points)) {
+            $points = [new Point(0), new Point(1)];
         }
-        $this->setPoints($args);
+        $this->setPoints($points);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_values($this->points);
     }
 
-    /**
-     * @return Point
-     */
-    public function getFirstPoint()
+    public function getFirstPoint(): Point
     {
         return reset($this->points);
     }
 
-    /**
-     * @return Point
-     */
-    public function getLastPoint()
+    public function getLastPoint(): Point
     {
         return end($this->points);
     }
 
-    protected function isPropertiesEqual($o)
+    protected function isPropertiesEqual(Base $o): bool
     {
-        /* @var $o PointSet */
         return array_keys($this->points) == array_keys($o->points);
     }
 
-    /**
-     * @param array|Point[] $points
-     *
-     * @return self
-     */
-    private function setPoints(array $points)
+    private function setPoints(array $points): void
     {
         if (count($points) <= 1) {
             throw new InvalidArgumentException('Set should have more than one point');
@@ -69,17 +57,15 @@ class PointSet extends Base implements JsonSerializable
         foreach ($points as $pointParameter) {
             $this->addPoint($pointParameter);
         }
-
-        return $this;
     }
 
-    private function addPoint($pointParameter)
+    private function addPoint(mixed $pointParameter): void
     {
         $point = new Point($pointParameter);
 
-        if (0 == $this->dimension) {
+        if (0 === $this->dimension) {
             $this->dimension = $point->getDimension();
-        } elseif ($point->getDimension() != $this->dimension) {
+        } elseif ($point->getDimension() !== $this->dimension) {
             throw new InvalidArgumentException('Points dimensions must be equals!');
         }
         $hashKey = json_encode($point);
@@ -87,7 +73,5 @@ class PointSet extends Base implements JsonSerializable
             throw new InvalidArgumentException('Points must be unique!');
         }
         $this->points[$hashKey] = $point;
-
-        return $this;
     }
 }

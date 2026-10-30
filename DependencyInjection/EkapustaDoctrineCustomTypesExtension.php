@@ -2,18 +2,20 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\DependencyInjection;
 
+use Doctrine\DBAL\Events;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
+use Ekapusta\DoctrineCustomTypesBundle\EventListener\DoctrineSchemaColumnDefinitionListener;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependExtensionInterface
 {
-    public function prepend(ContainerBuilder $container)
+    public const SCHEMA_COLUMN_LISTENER_ID = 'ekapustadoctrinecustomtypes.schemacolumn.listener';
+
+    public function prepend(ContainerBuilder $container): void
     {
         $bundles = $container->getParameter('kernel.bundles');
         if (!isset($bundles['DoctrineBundle'])) {
@@ -34,7 +36,17 @@ class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependE
         $container->prependExtensionConfig('doctrine', $config);
     }
 
-    private function extractEntityManagers(ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        $container->register(self::SCHEMA_COLUMN_LISTENER_ID, DoctrineSchemaColumnDefinitionListener::class)
+            ->setPublic(false)
+            ->addTag('doctrine.event_listener', ['event' => Events::onSchemaColumnDefinition]);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function extractEntityManagers(ContainerBuilder $container): array
     {
         $managers = ['default' => null];
 
@@ -48,7 +60,7 @@ class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependE
         return array_keys($managers);
     }
 
-    private function generateDqlConfig(ContainerBuilder $container)
+    private function generateDqlConfig(ContainerBuilder $container): array
     {
         $functions = new FunctionRegistry($container->getExtensionConfig('doctrine'));
 
@@ -57,11 +69,5 @@ class EkapustaDoctrineCustomTypesExtension extends Extension implements PrependE
             'numeric_functions' => $functions->getNumericFunctions(),
             'datetime_functions' => $functions->getDatetimeFunctions(),
         ];
-    }
-
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
     }
 }

@@ -64,7 +64,7 @@ class PointTest extends TestCase
         $this->assertFalse($Point->equals($other));
     }
 
-    public function dataForNotEqualsTo()
+    public static function dataForNotEqualsTo()
     {
         return [
             [null],

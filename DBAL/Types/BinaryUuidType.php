@@ -6,7 +6,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 use function bin2hex;
-use function gettype;
+use function get_debug_type;
 use function hex2bin;
 use function is_string;
 use function str_replace;
@@ -15,9 +15,9 @@ use function substr;
 
 final class BinaryUuidType extends AbstractUuidType
 {
-    const TYPE_NAME = 'binary_uuid';
+    public const TYPE_NAME = 'binary_uuid';
 
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getBinaryTypeDeclarationSQL([
             'length' => 16,
@@ -26,18 +26,16 @@ final class BinaryUuidType extends AbstractUuidType
     }
 
     /**
-     * @return string|null
-     *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
             return null;
         }
 
         if (!is_string($value) || strlen($value) !== 16) {
-            throw ConversionException::conversionFailedFormat(is_string($value) ? bin2hex($value) : gettype($value), self::TYPE_NAME, '16 bytes');
+            throw ConversionException::conversionFailedFormat(is_string($value) ? bin2hex($value) : get_debug_type($value), self::TYPE_NAME, '16 bytes');
         }
 
         $hex = bin2hex($value);
@@ -46,19 +44,12 @@ final class BinaryUuidType extends AbstractUuidType
     }
 
     /**
-     * @return string|null
-     *
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         $uuid = $this->normalizeRfc4122($value);
 
         return $uuid === null ? null : hex2bin(str_replace('-', '', $uuid));
-    }
-
-    public function getName()
-    {
-        return self::TYPE_NAME;
     }
 }

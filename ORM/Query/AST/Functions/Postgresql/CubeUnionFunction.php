@@ -7,6 +7,13 @@ namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql;
  *
  * "CUBE_UNION" "(" ArithmeticPrimary "," ArithmeticPrimary ")"
  */
-class CubeUnionFunction extends TwoArgsStringFunctionNode
+final class CubeUnionFunction extends PostgresFunctionNode
 {
+    protected const MIN_ARGUMENTS = 2;
+    protected const MAX_ARGUMENTS = 2;
+
+    public static function getReturnType(): string
+    {
+        return self::RETURN_TYPE_STRING;
+    }
 }
