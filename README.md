@@ -4,9 +4,11 @@
 
 Add custom types like MySQL's enum.
 
+Requires PHP 8.2+, Doctrine DBAL 2.13+ or 3 and ORM 2.11+.
+
 ## To add new type
 
-1. Add it to `Ekapusta\DoctrineCustomTypesBundle\DBAL\Types`
+1. Add it to `Ekapusta\DoctrineCustomTypesBundle\DBAL\Types`, extend `BaseType` and set `TYPE_NAME`
 2. Register it at `Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry`
 
 ## MySQL ENUM type

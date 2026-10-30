@@ -4,9 +4,9 @@ namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions\Postg
 
 use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions\FunctionTestCase;
 
-class TwoArgsStringFunctionNodeTest extends FunctionTestCase
+class CubeSetFunctionsTest extends FunctionTestCase
 {
-    public function dataForFunctionParsedAndGeneratesSqlBack()
+    public static function dataForFunctionParsedAndGeneratesSqlBack()
     {
         return [
             [

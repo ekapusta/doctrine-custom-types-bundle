@@ -2,7 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\PostgreSQL92Platform;
+use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\CubeType;
@@ -27,7 +27,7 @@ class CubeTypeTest extends TestCase
         }
 
         $this->type = Type::getType('cube');
-        $this->platform = new PostgreSQL92Platform();
+        $this->platform = new PostgreSQL100Platform();
     }
 
     public function testHasName()
@@ -52,7 +52,7 @@ class CubeTypeTest extends TestCase
         $this->type->convertToDatabaseValue($value, $this->platform);
     }
 
-    public function dataForConvertToDatabaseValueFailed()
+    public static function dataForConvertToDatabaseValueFailed()
     {
         return [
             ['e'],
@@ -72,7 +72,7 @@ class CubeTypeTest extends TestCase
         $this->assertEquals($expectedDatabaseValue, $actualDatabaseValue);
     }
 
-    public function dataForConvertToDatabaseValueSuccessfully()
+    public static function dataForConvertToDatabaseValueSuccessfully()
     {
         return [
             [null,              null],
@@ -94,7 +94,7 @@ class CubeTypeTest extends TestCase
         $this->type->convertToPHPValue($value, $this->platform);
     }
 
-    public function dataForConvertToPHPValueFailed()
+    public static function dataForConvertToPHPValueFailed()
     {
         return [
             ['e'],
@@ -113,7 +113,7 @@ class CubeTypeTest extends TestCase
         $this->assertNull($this->type->convertToPHPValue($value, $this->platform));
     }
 
-    public function dataForEmptyValueConvertsToPHPValueNull()
+    public static function dataForEmptyValueConvertsToPHPValueNull()
     {
         return [
             [''],
@@ -131,7 +131,7 @@ class CubeTypeTest extends TestCase
         $this->assertEquals($expectedPhpValue, $actualPhpValue);
     }
 
-    public function dataForConvertToPHPValueSuccessfully()
+    public static function dataForConvertToPHPValueSuccessfully()
     {
         return [
             ['()',                  null],

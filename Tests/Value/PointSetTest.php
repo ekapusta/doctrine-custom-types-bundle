@@ -67,7 +67,7 @@ class PointSetTest extends TestCase
         $this->assertFalse($one->equals($another));
     }
 
-    public function dataForPointSetsNotEquals()
+    public static function dataForPointSetsNotEquals()
     {
         return [
             [

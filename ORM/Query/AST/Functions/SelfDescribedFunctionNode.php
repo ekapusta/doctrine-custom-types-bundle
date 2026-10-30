@@ -6,13 +6,13 @@ use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 
 abstract class SelfDescribedFunctionNode extends FunctionNode
 {
-    const RETURN_TYPE_STRING = 'string';
-    const RETURN_TYPE_NUMERIC = 'numeric';
-    const RETURN_TYPE_DATETIME = 'datetime';
+    public const RETURN_TYPE_STRING = 'string';
+    public const RETURN_TYPE_NUMERIC = 'numeric';
+    public const RETURN_TYPE_DATETIME = 'datetime';
 
-    protected static $compatibilityDriverRegexp = '//';
+    protected static string $compatibilityDriverRegexp = '//';
 
-    public static function getName()
+    public static function getName(): string
     {
         $name = static::class;
 
@@ -20,21 +20,17 @@ abstract class SelfDescribedFunctionNode extends FunctionNode
         $name = preg_replace('/.*\\\([^\\\]+)$/', '\1', $name);
         $name = preg_replace('/[A-Z]/', '_$0', $name);
         $name = ltrim($name, '_');
-        $name = strtoupper($name);
 
-        return $name;
+        return strtoupper($name);
     }
 
-    /**
-     * @return string
-     */
-    public static function getReturnType()
+    public static function getReturnType(): string
     {
         return self::RETURN_TYPE_NUMERIC;
     }
 
-    public static function isCompatibleWith($driver)
+    public static function isCompatibleWith(string $driver): bool
     {
-        return preg_match(static::$compatibilityDriverRegexp, $driver);
+        return (bool) preg_match(static::$compatibilityDriverRegexp, $driver);
     }
 }

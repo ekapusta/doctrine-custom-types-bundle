@@ -7,6 +7,8 @@ namespace Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\Postgresql;
  *
  * "CUBE_UR_COORD" "(" ArithmeticPrimary "," ArithmeticPrimary ")"
  */
-class CubeUrCoordFunction extends CubeCoordFunctionNode
+final class CubeUrCoordFunction extends PostgresFunctionNode
 {
+    protected const MIN_ARGUMENTS = 2;
+    protected const MAX_ARGUMENTS = 2;
 }

@@ -2,6 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\Query\AST\Functions;
 
+use Doctrine\ORM\Configuration;
 use Ekapusta\DoctrineCustomTypesBundle\ORM\Query\AST\Functions\FunctionRegistry;
 use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\OrmTestCase;
 
@@ -10,7 +11,7 @@ use Ekapusta\DoctrineCustomTypesBundle\Tests\ORM\OrmTestCase;
  */
 abstract class FunctionTestCase extends OrmTestCase
 {
-    protected function configure(\Doctrine\ORM\Configuration $config)
+    protected function configure(Configuration $config)
     {
         $functions = new FunctionRegistry([]);
         $config->setCustomNumericFunctions($functions->getNumericFunctions());
@@ -35,5 +36,5 @@ abstract class FunctionTestCase extends OrmTestCase
     /**
      * @return array [[$dql, $sql]]
      */
-    abstract public function dataForFunctionParsedAndGeneratesSqlBack();
+    abstract public static function dataForFunctionParsedAndGeneratesSqlBack();
 }

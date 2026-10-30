@@ -7,8 +7,5 @@ use Doctrine\DBAL\Schema\Column;
 
 interface ColumnDefinerInterface
 {
-    /**
-     * @return Column
-     */
-    public function getColumnDefinition(array $tableColumn, AbstractPlatform $platform);
+    public function getColumnDefinition(array $tableColumn, AbstractPlatform $platform): Column;
 }

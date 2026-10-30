@@ -2,7 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\TypeRegistry;
@@ -21,7 +21,7 @@ final class BinaryUuidTypeTest extends TestCase
     /** @var BinaryUuidType */
     private $type;
 
-    /** @var MySqlPlatform */
+    /** @var MySQL80Platform */
     private $platform;
 
     protected function setUp(): void
@@ -31,7 +31,7 @@ final class BinaryUuidTypeTest extends TestCase
         }
 
         $this->type = Type::getType(BinaryUuidType::TYPE_NAME);
-        $this->platform = new MySqlPlatform();
+        $this->platform = new MySQL80Platform();
     }
 
     public function testType()

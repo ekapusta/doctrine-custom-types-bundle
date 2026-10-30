@@ -10,56 +10,54 @@ use JsonSerializable;
  */
 class Point extends Base implements JsonSerializable
 {
-    private $values = [];
+    /** @var list<float> */
+    private array $values = [];
 
-    public function __construct(/* ... */)
+    /**
+     * @param int|float|string|array|Point ...$values coordinates, or single array of them, or point to copy
+     */
+    public function __construct(mixed ...$values)
     {
-        if (func_num_args() == 1) {
-            $first = func_get_arg(0);
-            if (is_array($first)) {
-                $this->setValues($first);
-            } elseif ($first instanceof self) {
-                $this->setValues($first->values);
-            } else {
-                $this->setValues([$first]);
-            }
-        } else {
-            $this->setValues(func_get_args());
+        if (count($values) === 1) {
+            $first = $values[0];
+            $values = match (true) {
+                is_array($first) => $first,
+                $first instanceof self => $first->values,
+                default => [$first],
+            };
         }
+        $this->setValues($values);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->values;
     }
 
-    public function toArray()
+    /**
+     * @return list<float>
+     */
+    public function toArray(): array
     {
         return $this->values;
     }
 
-    public function getDimension()
+    public function getDimension(): int
     {
         return count($this->values);
     }
 
-    protected function isPropertiesEqual($o)
+    protected function isPropertiesEqual(Base $o): bool
     {
-        /* @var $o Point */
-        return true
-            && $this->getDimension() == $o->getDimension()
-            && $this->values == $o->values
-        ;
+        return $this->getDimension() === $o->getDimension()
+            && $this->values == $o->values;
     }
 
-    /**
-     * @return self
-     */
-    private function setValues(array $values)
+    private function setValues(array $values): void
     {
         $this->values = [];
 
-        if (0 == count($values)) {
+        if (0 === count($values)) {
             $values = [0];
         }
         foreach ($values as $value) {
@@ -68,7 +66,5 @@ class Point extends Base implements JsonSerializable
             }
             $this->values[] = (float) $value;
         }
-
-        return $this;
     }
 }

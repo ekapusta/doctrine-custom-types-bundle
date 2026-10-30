@@ -1,8 +1,8 @@
 <?php
 
-namespace DBAL\Types;
+namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\BinaryHashType;
 use PHPUnit\Framework\TestCase;
@@ -11,12 +11,12 @@ use function bin2hex;
 use function hash_hmac;
 use function hex2bin;
 
-final class MysqlBinaryHashTypeTest extends TestCase
+final class BinaryHashTypeTest extends TestCase
 {
     /** @var BinaryHashType */
     private $type;
 
-    /** @var MySqlPlatform */
+    /** @var MySQL80Platform */
     private $platform;
 
     protected function setUp(): void
@@ -28,7 +28,7 @@ final class MysqlBinaryHashTypeTest extends TestCase
         }
 
         $this->type = Type::getType($typeName);
-        $this->platform = new MySqlPlatform();
+        $this->platform = new MySQL80Platform();
     }
 
     public function testName()

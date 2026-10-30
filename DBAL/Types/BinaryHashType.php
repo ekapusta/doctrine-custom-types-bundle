@@ -8,30 +8,24 @@ use function bin2hex;
 use function hex2bin;
 use function trim;
 
-class BinaryHashType extends BaseType
+final class BinaryHashType extends BaseType
 {
-    const TYPE_NAME = 'binary_hash';
+    public const TYPE_NAME = 'binary_hash';
 
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getBinaryTypeDeclarationSQL($column);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): string
     {
+        $value = (string) $value;
+
         return trim($value) === '' ? '' : bin2hex($value);
     }
 
-    /**
-     * @return false|string
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): string|false
     {
-        return hex2bin($value);
-    }
-
-    public function getName()
-    {
-        return self::TYPE_NAME;
+        return hex2bin((string) $value);
     }
 }

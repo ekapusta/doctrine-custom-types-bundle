@@ -9,14 +9,14 @@ use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\ColumnDefinerInterface;
 class DoctrineSchemaColumnDefinitionListener
 {
     /**
-     * @see \Doctrine\DBAL\Schema\MySqlSchemaManager::_getPortableTableColumnDefinition
+     * @see \Doctrine\DBAL\Schema\MySQLSchemaManager::_getPortableTableColumnDefinition
      */
-    public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args)
+    public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $args): void
     {
         $tableColumn = array_change_key_case($args->getTableColumn(), CASE_LOWER);
         $tableColumn += ['type' => '', 'data_type' => '', 'typename' => ''];
         $typeCandidates = [$tableColumn['type'], $tableColumn['data_type'], $tableColumn['typename']];
-        $dbType = strtolower(current(array_filter($typeCandidates)));
+        $dbType = strtolower((string) current(array_filter($typeCandidates)));
         $dbType = strtok($dbType, '(), ');
 
         $platform = $args->getConnection()->getDatabasePlatform();

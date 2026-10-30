@@ -2,7 +2,7 @@
 
 namespace Ekapusta\DoctrineCustomTypesBundle\Tests\DBAL\Types;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Types\Type;
 use Ekapusta\DoctrineCustomTypesBundle\DBAL\Types\EnumType;
 use InvalidArgumentException;
@@ -24,7 +24,7 @@ class EnumTypeTest extends TestCase
         }
 
         $this->type = Type::getType('enum');
-        $this->platform = new MySqlPlatform();
+        $this->platform = new MySQL80Platform();
     }
 
     public function testHasName()
@@ -43,7 +43,7 @@ class EnumTypeTest extends TestCase
         $this->type->getSQLDeclaration($fieldDeclaration, $this->platform);
     }
 
-    public function dataForSqlDeclarationRequiresValues()
+    public static function dataForSqlDeclarationRequiresValues()
     {
         return [
             [[]],
